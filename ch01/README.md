@@ -104,6 +104,7 @@ int main()
 }
 ```
 编译器错误信息：
+
 ![编译器错误信息](https://github.com/huangmingchuan/Cpp_Primer_Answers/raw/master/data/exercise1_7.png)
 
 ## 练习1.8
