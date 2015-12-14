@@ -8,3 +8,4 @@
 
 > 改写程序，让它返回-1。返回值-1通常被当作程序错误的标识。重新编译并运行你的程序，观察你的系统如何处理main返回的错误标识。
 
+![windows](https://github.com/huangmingchuan/Cpp_Primer_Answers/raw/master/data/exercise1_2.png)
