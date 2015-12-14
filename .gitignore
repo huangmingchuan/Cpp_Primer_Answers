@@ -27,6 +27,7 @@
 *.out
 *.app
 
+Debug
 .gitattributes
 Cpp_Primer_Answer.sdf
 Cpp_Primer_Answer.opensdf
