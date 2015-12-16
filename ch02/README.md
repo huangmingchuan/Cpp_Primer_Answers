@@ -57,8 +57,11 @@ std::cout << u - i << std::endl;
 - (d) 10, 10u, 10., 10e-2
 
 (a): 字符字面值，宽字符字面值，字符串字面值，宽字符串字面值。
+
 (b): 十进制整型，十进制无符号整型，十进制长整型，八进制整型，十六进制整型。
+
 (c): double, float, long double
+
 (d): 十进制整型，十进制无符号整型，double, double
 
 ## 练习2.6
@@ -81,8 +84,11 @@ int month = 09, day = 07;
 - (d) 3.14L
 
 (a): Who goes with Fergus?(换行)，string 类型
+
 (b): long double
+
 (c): 无效，因为后缀 f 只能用于浮点字面量，而 1024 是整型。
+
 (d): long double
 
 参考：
@@ -100,6 +106,49 @@ int main()
     std::cout << 2 << "\115\012";
     std::cout << 2 << "\t\115\012";
     return 0;
+}
+```
+
+## 练习2.9
+
+> 解释下列定义的含义，对于非法的定义，请说明错在何处并将其改正。
+- (a) std::cin >> int input_value;
+- (b) int i = { 3.14 };
+- (c) double salary = wage = 9999.99;
+- (d) int i = 3.14;
+
+(a): 应该先定义再使用。
+```cpp
+int input_value = 0;
+std::cin >> input_value;
+```
+
+(b): 用列表初始化内置类型的变量时，如果存在丢失信息的风险，则编译器将报错。
+```cpp
+double i = { 3.14 };
+```
+
+(c): 在这里 wage 是未定义的，应该在此之前将其定义。
+```cpp
+double wage;
+double salary = wage = 9999.99;
+```
+
+(d): 不报错，但是小数部分会被截断。
+```cpp
+double i = 3.14;
+```
+
+## 练习2.10
+
+> 下列变量的初值分别是什么？
+```cpp
+std::string global_str;
+int global_int;
+int main()
+{
+    int local_int;
+    std::string local_str;
 }
 ```
 
