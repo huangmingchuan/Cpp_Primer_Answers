@@ -345,3 +345,98 @@ int cnt = 0;        // 合法
 const int sz = cnt; // 合法
 ++cnt; ++sz;        // 不合法, const 对象不能被改变
 ```
+
+## 练习2.27
+
+> 下面的哪些初始化是合法的？请说明原因。
+```cpp
+int i = -1, &r = 0;         // 不合法, r 必须引用一个对象
+int *const p2 = &i2;        // 合法
+const int i = -1, &r = 0;   // 合法
+const int *const p3 = &i2;  // 合法
+const int *p1 = &i2;        // 合法
+const int &const r2;        // 不合法, r2 是引用，引用没有顶层 const
+const int i2 = i, &r = i;   // 合法
+```
+
+## 练习2.28
+
+> 说明下面的这些定义是什么意思，挑出其中不合法的。
+```cpp
+int i, *const cp;       // 不合法, const 指针必须初始化
+int *p1, *const p2;     // 不合法, const 指针必须初始化
+const int ic, &r = ic;  // 不合法, const int 必须初始化
+const int *const p3;    // 不合法, const 指针必须初始化
+const int *p;           // 合法. 一个指针，指向 const int
+```
+
+## 练习2.29
+
+> 假设已有上一个练习中定义的那些变量，则下面的哪些语句是合法的？请说明原因。
+```cpp
+i = ic;     // 合法, 常量赋值给普通变量
+p1 = p3;    // 不合法, p3 是const指针不能赋值给普通指针
+p1 = &ic;   // 不合法, 普通指针不能指向常量
+p3 = &ic;   // 合法, p3 是常量指针且指向常量
+p2 = p1;    // 合法, 可以将普通指针赋值给常量指针
+ic = *p3;   // 合法, 对 p3 取值后是一个 int 然后赋值给 ic
+```
+
+## 练习2.30
+
+> 对于下面的这些语句，请说明对象被声明成了顶层const还是底层const？
+```cpp
+const int v2 = 0; int v1 = v2;
+int *p1 = &v1, &r1 = v1;
+const int *p2 = &v2, *const p3 = &i, &r2 = v2;
+```
+
+v2 是顶层const，p2 是底层const，p3 既是顶层const又是底层const，r2 是底层const。
+
+## 练习2.31
+
+> 假设已有上一个练习中所做的那些声明，则下面的哪些语句是合法的？请说明顶层const和底层const在每个例子中有何体现。
+```cpp
+r1 = v2; // 合法, 顶层const在拷贝时不受影响
+p1 = p2; // 不合法, p2 是底层const，如果要拷贝必须要求 p1 也是底层const
+p2 = p1; // 合法, int* 可以转换成const int*
+p1 = p3; // 不合法, p3 是一个底层const，p1 不是
+p2 = p3; // 合法, p2 和 p3 都是底层const，拷贝时忽略掉顶层const
+```
+
+## 练习2.32
+
+> 下面的代码是否合法？如果非法，请设法将其修改正确。
+```
+int null = 0, *p = null;
+```
+合法。指针可以初始化为 0 表示为空指针。
+
+## 练习2.33
+
+> 利用本节定义的变量，判断下列语句的运行结果。
+```cpp
+a=42; // a 是 int
+b=42; // b 是一个 int,(ci的顶层const在拷贝时被忽略掉了)
+c=42; // c 也是一个int
+d=42; // d 是一个 int *,所以语句非法
+e=42; // e 是一个 const int *, 所以语句非法
+g=42; // g 是一个 const int 的引用，引用都是底层const，所以不能被赋值
+```
+
+## [练习2.34](exercise2_34.cpp)
+
+> 基于上一个练习中的变量和语句编写一段程序，输出赋值前后变量的内容，你刚才的推断正确吗？如果不对，请反复研读本节的示例直到你明白错在何处为止。
+
+## 练习2.35
+
+> 判断下列定义推断出的类型是什么，然后编写程序进行验证。
+```cpp
+const int i = 42;
+auto j = i; const auto &k = i; auto *p = &i; 
+const auto j2 = i, &k2 = i;
+```
+
+j 是 int，k 是 const int的引用，p 是const int *，j2 是const int，k2 是 const int 的引用。
+
+至于验证，鼠标移到变量上就出来了......
