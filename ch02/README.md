@@ -20,3 +20,31 @@ C++ 规定 `short` 和 `int` 至少16位，`long` 至少32位，`long long` 至�
 
 使用 `double` 或 `float` 。
 
+## 练习2.3
+
+> 读程序写结果。
+```
+unsigned u = 10, u2 = 42;
+std::cout << u2 - u << std::endl;
+std::cout << u - u2 << std::endl;
+int i = 10, i2 = 42;
+std::cout << i2 - i << std::endl;
+std::cout << i - i2 << std::endl;
+std::cout << i - u << std::endl;
+std::cout << u - i << std::endl;
+```
+
+输出：
+```
+32
+4294967264
+32
+-32
+0
+0
+```
+
+## [练习2.4](exercise2_4.cpp)
+
+> 编写程序检查你的估计是否正确，如果不正确，请仔细研读本节直到弄明白问题所在。
+
