@@ -471,7 +471,7 @@ c 是 int 类型，值为 3。d 是 int& 类型，绑定到 a。
 > 说明由decltype 指定类型和由auto指定类型有何区别。请举一个例子，decltype指定的类型与auto指定的类型一样；再举一个例子，decltype指定的类型与auto指定的类型不一样。
 
 decltype 处理顶层const和引用的方式与 auto不同，decltype会将顶层const和引用保留起来。
-```
+```cpp
 int i = 0, &r = i;
 //相同
 auto a = i;
@@ -511,6 +511,7 @@ struct Sale_data
     double price = 0.0;
     //...
 }
+```
 
 ## 练习2.41
 
