@@ -73,4 +73,72 @@ for(auto &c : s){ /* ... */ }
 
 要根据for循环中的代码来看是否合法，c是string 对象中字符的引用，s是常量。因此如果for循环中的代码重新给c赋值就会非法，如果不改变c的值，那么合法。
 
+## 练习3.12
+
+> 下列vector对象的定义有不正确的吗？如果有，请指出来。对于正确的，描述其执行结果；对于不正确的，说明其错误的原因。
+```cpp
+vector<vector<int>> ivec;         // 在C++11当中合法
+vector<string> svec = ivec;       // 不合法，类型不一样
+vector<string> svec(10, "null");  // 合法
+```
+
+## 练习3.13
+
+> 下列的vector对象各包含多少个元素？这些元素的值分别是多少？
+```cpp
+vector<int> v1;         // size:0,  no values.
+vector<int> v2(10);     // size:10, value:0
+vector<int> v3(10, 42); // size:10, value:42
+vector<int> v4{ 10 };     // size:1,  value:10
+vector<int> v5{ 10, 42 }; // size:2,  value:10, 42
+vector<string> v6{ 10 };  // size:10, value:""
+vector<string> v7{ 10, "hi" };  // size:10, value:"hi"
+```
+
+## [练习3.14](exercise3_14.cpp)
+
+> 编写一段程序，用cin读入一组整数并把它们存入一个vector对象。
+
+## [练习3.15](exercise3_15.cpp)
+
+> 改写上题程序，不过这次读入的是字符串。
+
+## [练习3.16](exercise3_16.cpp)
+
+> 编写一段程序，把练习3.13中vector对象的容量和具体内容输出出来
+
+## [练习3.17](exercise3_17.cpp)
+
+> 从cin读入一组词并把它们存入一个vector对象，然后设法把所有词都改为大写形式。输出改变后的结果，每个词占一行。
+
+## 练习3.18
+
+> 下面的程序合法吗？如果不合法，你准备如何修改？
+```cpp
+vector<int> ivec;
+ivec[0] = 42;
+```
+
+不合法。应改为：
+```cpp
+ivec.push_back(42);
+```
+
+## 练习3.19
+
+> 如果想定义一个含有10个元素的vector对象，所有元素的值都是42，请例举三种不同的实现方法，哪种方式更好呢？
+
+如下三种：
+```cpp
+vector<int> ivec1(10, 42);
+vector<int> ivec2{ 42, 42, 42, 42, 42, 42, 42, 42, 42, 42 };
+vector<int> ivec3;
+for (int i = 0; i < 10; ++i)
+	ivec3.push_back(42);
+```
+第一种方式最好。
+
+## [练习3.20](exercise3_20.cpp)
+
+> 读入一组整数并把他们存入一个vector对象，将每对相邻整数的和输出出来。改写你的程序，这次要求先输出第一个和最后一个元素的和，接着输入第二个和倒数第二个元素的和，以此类推。
 
