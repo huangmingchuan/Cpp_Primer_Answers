@@ -154,15 +154,17 @@ C++语言规定else与它最近的尚未匹配的if匹配。
 ```
 
 * (a) 少了 break语句。应该为：
-	```cpp
+```cpp
+	unsigned aCnt = 0, eCnt = 0, iouCnt = 0;
+    char ch = next_text();
     switch (ch) {
     	case 'a': aCnt++; break;
     	case 'e': eCnt++; break;
     	default: iouCnt++; break;
     }
-	```
+```
 * (b) 在 default 分支当中，ix 未定义。应该在外部定义ix。
-	```cpp
+```cpp
     unsigned index = some_value();
     int ix;
     switch (index) {
@@ -174,9 +176,9 @@ C++语言规定else与它最近的尚未匹配的if匹配。
             ix = static_cast<int>(ivec.size())-1;
             ivec[ ix ] = index;
     }
-	```
+```
 * (c) case 后面应该用冒号而不是逗号。
-	```cpp
+```cpp
     unsigned evenCnt = 0, oddCnt = 0;
     int digit = get_num() % 10;
     switch (digit) {
@@ -187,9 +189,9 @@ C++语言规定else与它最近的尚未匹配的if匹配。
             evencnt++;
             break;
     }
-	```
+```
 * (d) case 标签必须是整型常量表达式。
-	```cpp
+```cpp
     const unsigned ival=512, jval=1024, kval=4096;
     unsigned bufsize;
     unsigned swt = get_bufCnt();
@@ -204,5 +206,5 @@ C++语言规定else与它最近的尚未匹配的if匹配。
             bufsize = kval * sizeof(int);
             break;
     }
-	```
+```
 
