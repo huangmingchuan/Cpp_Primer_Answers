@@ -23,7 +23,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch05\exercise5_25.cpp">
+    <ClCompile Include="ch06\exercise6_4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
