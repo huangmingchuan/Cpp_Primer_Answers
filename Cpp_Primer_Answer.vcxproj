@@ -15,7 +15,8 @@
     <ClInclude Include="data\Sales_item.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch06\exercise6_4.cpp" />
+    <ClCompile Include="ch06\fact.cpp" />
+    <ClCompile Include="ch06\factMain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAEE1AD0-0D58-421C-BAF5-604CEA494D9C}</ProjectGuid>
