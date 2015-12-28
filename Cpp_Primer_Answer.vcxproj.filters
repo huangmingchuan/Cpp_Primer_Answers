@@ -15,15 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="data\Sales_item.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ch02\exercise2_42.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ch06\exercise6_12.cpp">
+    <ClCompile Include="ch06\exercise6_17.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -158,3 +158,63 @@ int main()
 * 如果 s 是普通引用，也可能会意外改变原来字符串的内容。
 * occurs 如果是常量引用，那么意味着不能改变它的值，那也就失去意义了。
 
+## 练习6.16
+
+> 下面的这个函数虽然合法，但是不算特别有用。指出它的局限性并设法改善。
+```cpp
+bool is_empty(string& s) { return s.empty(); }
+```
+
+局限性在于**常量字符串**和**字符串字面值**无法作为该函数的实参，如果下面这样调用是非法的：
+```cpp
+const string str;
+bool flag = is_empty(str); //非法
+bool flag = is_empty("hello"); //非法
+```
+所以要将这个函数的形参定义为常量引用：
+```cpp
+bool is_empty(const string& s) { return s.empty(); }
+```
+
+## [练习6.17](exercise6_17.cpp)
+
+> 编写一个函数，判断string对象中是否含有大写字母。编写另一个函数，把string对象全部改写成小写形式。在这两个函数中你使用的形参类型相同吗？为什么？
+
+两个函数的形参不一样。第一个函数使用常量引用，第二个函数使用普通引用。
+
+## 练习6.18
+
+> 为下面的函数编写函数声明，从给定的名字中推测函数具备的功能。
+* (a) 名为 compare 的函数，返回布尔值，两个参数都是 matrix 类的引用。 
+* (b) 名为 change_val 的函数，返回vector<int>的迭代器，有两个参数：一个是int，另一个是vector<int>的迭代器。
+
+```cpp
+(a) bool compare(matrix &m1, matrix &m2);
+(b) vector<int>::iterator change_val(int, vector<int>::iterator);
+```
+
+## 练习6.19
+
+> 假定有如下声明，判断哪个调用合法、哪个调用不合法。对于不合法的函数调用，说明原因。
+```cpp
+double calc(double);
+int count(const string &, char);
+int sum(vector<int>::iterator, vector<int>::iterator, int);
+vector<int> vec(10);
+(a) calc(23.4, 55.1);
+(b) count("abcda",'a');
+(c) calc(66);
+(d) sum(vec.begin(), vec.end(), 3.8);
+```
+
+* (a) 不合法。calc只有一个参数。
+* (b) 合法。
+* (c) 合法。
+* (d) 合法。
+
+## 练习6.20
+
+> 引用形参什么时候应该是常量引用？如果形参应该是常量引用，而我们将其设为了普通引用，会发生什么情况？
+
+应该尽量将引用形参设为常量引用，除非有明确的目的是为了**改变**这个引用变量。如果形参应该是常量引用，而我们将其设为了普通引用，那么常量实参将无法作用于普通引用形参。
+
