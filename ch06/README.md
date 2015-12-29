@@ -359,3 +359,32 @@ decltype(odd)& arrPtr(int i)
     return (i % 2) ? odd : even;
 }
 ```
+
+## 练习6.39
+
+> 说明在下面的每组声明中第二条语句是何含义。如果有非法的声明，请指出来。
+```cpp
+(a) int calc(int, int);
+	int calc(const int, const int);
+(b) int get();
+	double get();
+(c) int *reset(int *);
+	double *reset(double *);
+```
+
+* (a) 非法。因为顶层const 不影响传入函数的对象，所以第二个声明无法与第一个声明区分开来。
+* (b) 非法。对于重载的函数来说，它们应该只有形参的数量和形参的类型不同。返回值与重载无关。
+* (c) 合法。
+
+## 练习6.40
+
+> 下面的哪个声明是错误的？为什么？
+```cpp
+(a) int ff(int a, int b = 0, int c = 0);
+(b) char *init(int ht = 24, int wd, char bckgrnd);		
+```
+
+* (a) 正确。
+* (b) 错误。因为一旦某个形参被赋予了默认值，那么它之后的形参都必须要有默认值。
+
+
