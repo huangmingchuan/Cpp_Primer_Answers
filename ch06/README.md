@@ -482,3 +482,61 @@ assert(s == sought);
 
 > 编写函数f的4版本，令其各输出一条可以区分的消息。验证上一个练习的答案，如果你的回答错了，反复研究本节内容直到你弄清自己错在何处。
 
+## 练习6.52
+
+> 已知有如下声明：
+```cpp
+void manip(int ,int);
+double dobj;
+```
+请指出下列调用中每个类型转换的等级。
+```cpp
+(a) manip('a', 'z');
+(b) manip(55.4, dobj);
+```
+
+* (a) 第3级。类型提升实现的匹配。
+* (b) 第4级。算术类型转换实现的匹配。
+
+## 练习6.53
+
+> 说明下列每组声明中的第二条语句会产生什么影响，并指出哪些不合法（如果有的话）。
+```cpp
+(a) int calc(int&, int&); 
+	int calc(const int&, const int&); 
+(b) int calc(char*, char*);
+	int calc(const char*, const char*);
+(c) int calc(char*, char*);
+	int calc(char* const, char* const);
+```
+
+(c) 不合法。顶层const不影响传入函数的对象。
+
+## 练习6.54
+
+> 编写函数的声明，令其接受两个int形参并返回类型也是int；然后声明一个vector对象，令其元素是指向该函数的指针。
+
+```cpp
+int func(int, int);
+vector<decltype(func)*> v;
+```
+
+## 练习6.55
+
+> 编写4个函数，分别对两个int值执行加、减、乘、除运算；在上一题创建的vector对象中保存指向这些函数的指针。
+
+```cpp
+int add(int a, int b) { return a + b; }
+int subtract(int a, int b) { return a - b; }
+int multiply(int a, int b) { return a * b; }
+int divide(int a, int b) { return b != 0 ? a / b : 0; }
+
+v.push_back(add);
+v.push_back(subtract);
+v.push_back(multiply);
+v.push_back(divide);
+```
+
+## [练习6.56](exercise6_55.cpp)
+
+> 调用上述vector对象中的每个元素并输出结果。
