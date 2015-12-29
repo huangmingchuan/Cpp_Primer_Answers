@@ -387,4 +387,53 @@ decltype(odd)& arrPtr(int i)
 * (a) 正确。
 * (b) 错误。因为一旦某个形参被赋予了默认值，那么它之后的形参都必须要有默认值。
 
+## 练习6.41
 
+> 下面的哪个调用是非法的？为什么？哪个调用虽然合法但显然与程序员的初衷不符？为什么？
+```cpp
+char *init(int ht, int wd = 80, char bckgrnd = ' ');
+(a) init();
+(b) init(24,10);
+(c) init(14,'*');
+```
+
+* (a) 非法。第一个参数不是默认参数，最少需要一个实参。
+* (b) 合法。
+* (c) 合法，但与初衷不符。字符 `*` 被解释成 `int` 传入到了第二个参数。而初衷是要传给第三个参数。
+
+## [练习6.42](exercise6_42.cpp)
+
+> 给make_plural函数的第二个形参赋予默认实参's', 利用新版本的函数输出单词success和failure的单数和复数形式。
+
+## 练习6.43
+
+> 你会把下面的哪个声明和定义放在头文件中？哪个放在源文件中？为什么？
+```cpp
+(a) inline bool eq(const BigInt&, const BigInt&) {...}
+(b) void putValues(int *arr, int size);
+```
+
+全部都放进头文件。(a) 是内联函数，(b) 是声明。
+
+## 练习6.44
+
+> 将6.2.2节的isShorter函数改写成内联函数。
+
+```cpp
+inline bool is_shorter(const string &lft, const string &rht) 
+{
+    return lft.size() < rht.size();
+}
+```
+
+## 练习6.45
+
+> 回顾在前面的练习中你编写的那些函数，它们应该是内联函数吗？如果是，将它们改写成内联函数；如果不是，说明原因。
+
+一般来说，内联机制用于优化规模小、流程直接、频繁调用的函数。
+
+## 练习6.46
+
+> 能把isShorter函数定义成constexpr函数吗？如果能，将它改写成constxpre函数；如果不能，说明原因。
+
+不能。constexpr函数的返回值类型及所有形参都得是字面值类型。
