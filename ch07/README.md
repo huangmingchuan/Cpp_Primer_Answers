@@ -176,8 +176,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
 **优点**：
 * 程序的意图更明确
 * 函数的参数可以与成员同名，如 
+
 		void setAddr(const std::string &addr) { this->addr = addr; }
 
 **缺点**：
 * 有时候显得有点多余，如
+
 		std::string getAddr() const { return this->addr; }
