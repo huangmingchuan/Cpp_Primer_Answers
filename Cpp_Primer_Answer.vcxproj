@@ -11,7 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch07\exercise7_11.cpp" />
+    <ClInclude Include="ch07\exercise7_27.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ch07\exercise7_27.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAEE1AD0-0D58-421C-BAF5-604CEA494D9C}</ProjectGuid>

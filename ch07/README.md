@@ -135,3 +135,49 @@ class 和 struct 的唯一区别是默认的访问级别不同。
 
 > 将Sales_data::avg_price 定义成内联函数。
 
+## 练习7.27 : [头文件](exercise7_27.h) | [主函数](exercise7_27.cpp)
+
+> 给你自己的Screen 类添加move、set 和display 函数，通过执行下面的代码检验你的类是否正确。
+```cpp
+Screen myScreen(5, 5, 'X');
+myScreen.move(4, 0).set('#').display(cout);
+cout << "\n";
+myScreen.display(cout);
+cout << "\n";
+```
+
+## 练习7.28
+
+> 如果move、set和display函数的返回类型不是Screen& 而是Screen，则在上一个练习中奖会发生什么？
+
+如果返回类型是Screen，那么move返回的是 *this 的一个副本，因此set函数只能改变临时副本而不能改变myScreen的值。
+
+## 练习7.29
+
+> 修改你的Screen 类，令move、set和display函数返回Screen并检查程序的运行结果，在上一个练习中你的推测正确吗？
+
+推测正确。
+```
+//返回 Screen& 的结果
+XXXXXXXXXXXXXXXXXXXX#XXXX
+XXXXXXXXXXXXXXXXXXXX#XXXX
+					^  <- 这里
+
+//返回 Screen 的结果
+XXXXXXXXXXXXXXXXXXXX#XXXX
+XXXXXXXXXXXXXXXXXXXXXXXXX
+					^  <- 这里
+```
+
+## 练习7.30
+
+> 通过this指针使用成员的做法虽然合法，但是有点多余。讨论显示使用指针访问成员的优缺点。
+
+**优点**：
+* 程序的意图更明确
+* 函数的参数可以与成员同名，如 
+		void setAddr(const std::string &addr) { this->addr = addr; }
+
+**缺点**：
+* 有时候显得有点多余，如
+		std::string getAddr() const { return this->addr; }
