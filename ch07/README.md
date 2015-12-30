@@ -47,3 +47,27 @@ if (read(read(cin, data1), data2))
 
 read 函数的返回值是 istream 对象，if语句中条件部分的作用是从输入流中读取数据给两个data对象。
 
+## 练习7.11 : [头文件](exercise7_11.h) | [主函数](exercise7_11.cpp)
+
+> 在你的Sales_data类中添加构造函数，然后编写一段程序令其用到每个构造函数。
+
+## [练习7.12](exercise7_12.h)
+
+> 把只接受一个istream 作为参数的构造函数移到类的内部。
+
+## [练习7.13](exercise7_13.cpp)
+
+> 使用istream构造函数重写第229页的程序。
+
+## 练习7.14
+
+> 编写一个构造函数，令其用我们提供的类内初始值显式地初始化成员。
+
+```cpp
+Sales_data() : units_sold(0) , revenue(0) { }
+```
+
+## [练习7.15](exercise7_15.h)
+
+> 为你的 Person 类添加正确的构造函数。
+
