@@ -236,16 +236,16 @@ Screen::pos Screen::size() const
 > 解释下面代码的含义，说明其中的Type和initVal分别使用了哪个定义。如果代码存在错误，尝试修改它。
 ```cpp
 typedef string Type;
-Type initVal(); // 使用 string
+Type initVal(); 
 class Exercise {
 public:
     typedef double Type;
-    Type setVal(Type); // use `double`
-    Type initVal(); // use `double`
+    Type setVal(Type);
+    Type initVal(); 
 private:
     int val;
 };
-Type Exercise::setVal(Type parm) {  // 返回值是string
+Type Exercise::setVal(Type parm) { 
     val = parm + initVal();     
     return val;
 }
