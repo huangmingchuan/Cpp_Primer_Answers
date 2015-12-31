@@ -183,3 +183,76 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
 * 有时候显得有点多余，如
 
 		std::string getAddr() const { return this->addr; }
+
+## 练习7.31
+
+> 定义一对类X 和Y，其中X 包含一个指向 Y 的指针，而Y 包含一个类型为 X 的对象。
+
+```cpp
+class Y;
+
+class X{
+	Y* y = nullptr;	
+};
+
+class Y{
+	X x;
+};
+```
+
+## [练习7.32](exercise7_32.h)
+
+> 定义你自己的Screen 和 Window_mgr，其中clear是Window_mgr的成员，是Screen的友元。
+
+## 练习7.33
+
+> 如果我们给Screen 添加一个如下所示的size成员将发生什么情况？如果出现了问题，请尝试修改它。
+```cpp
+pos Screen::size() const
+{
+	return height * width;
+}
+```
+
+未定义标识符 pos。应该改为：
+```cpp
+Screen::pos Screen::size() const
+{
+	return height * width;
+}
+```
+
+## 练习7.34
+
+> 如果我们把第256页Screen类的pos的typedef放在类的最后一行会发生什么情况？
+
+在 `dummy_fcn(pos height)` 函数中会出现 **未定义的标识符pos**。
+```
+类型名的定义通常出现在类的开始处，这样就能确保所有使用该类型的成员都出现在类名的定义之后。
+```
+
+## 练习7.35
+
+> 解释下面代码的含义，说明其中的Type和initVal分别使用了哪个定义。如果代码存在错误，尝试修改它。
+```cpp
+typedef string Type;
+Type initVal(); // 使用 string
+class Exercise {
+public:
+    typedef double Type;
+    Type setVal(Type); // use `double`
+    Type initVal(); // use `double`
+private:
+    int val;
+};
+
+Type Exercise::setVal(Type parm) {  // 返回值是string
+    val = parm + initVal();     
+    return val;
+}
+```
+
+**书上255页中说**：
+> 然而在类中，如果成员使用了外层作用域中的某个名字，而该名字代表一种类型，则类不能在之后重新定义该名字。
+
+因此重复定义 Type 是错误的行为。
