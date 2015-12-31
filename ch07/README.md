@@ -245,7 +245,6 @@ public:
 private:
     int val;
 };
-
 Type Exercise::setVal(Type parm) {  // 返回值是string
     val = parm + initVal();     
     return val;
