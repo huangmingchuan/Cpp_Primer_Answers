@@ -257,3 +257,115 @@ Type Exercise::setVal(Type parm) {
 因此重复定义 Type 是错误的行为。
 
 * 虽然重复定义类型名字是错误的行为，但是编译器并不为此负责。所以我们要人为地遵守一些原则，在[这里](https://github.com/Mooophy/Cpp-Primer/issues/390)有一些讨论。
+
+## 练习7.36
+
+> 下面的初始值是错误的，请找出问题所在并尝试修改它。
+```cpp
+struct X {
+	X (int i, int j): base(i), rem(base % j) {}
+	int rem, base;
+};
+```
+
+应该改为：
+```cpp
+struct X {
+	X (int i, int j): base(i), rem(base % j) {}
+	int base, rem;
+};
+```
+
+## 练习7.37
+
+> 使用本节提供的Sales_data类，确定初始化下面的变量时分别使用了哪个构造函数，然后罗列出每个对象所有的数据成员的值。
+
+```cpp
+Sales_data first_item(cin); // 使用 Sales_data(std::istream &is) ; 各成员值从输入流中读取
+int main() {
+	Sales_data next; // 使用默认构造函数  bookNo = "", cnt = 0, revenue = 0.0
+
+	// 使用 Sales_data(std::string s = "");   bookNo = "9-999-99999-9", cnt = 0, revenue = 0.0
+	Sales_data last("9-999-99999-9"); 
+}
+```
+
+## 练习7.38
+
+> 有些情况下我们希望提供cin作为接受istream& 参数的构造函数的默认实参，请声明这样的构造函数。
+
+```cpp
+Sales_data(std::istream &is = std::cin) { read(is, *this); }
+```
+
+## 练习7.39
+
+> 如果接受string 的构造函数和接受 istream& 的构造函数都使用默认实参，这种行为合法吗？如果不，为什么？
+
+不合法。当你调用 `Sales_data()` 构造函数时，无法区分是哪个重载。
+
+## 练习7.40
+
+> 从下面的抽象概念中选择一个（或者你自己指定一个），思考这样的类需要哪些数据成员，提供一组合理的构造函数并阐明这样做的原因。
+```cpp
+(a) Book
+(b) Data
+(c) Employee
+(d) Vehicle
+(e) Object
+(f) Tree
+```
+
+(a) Book.
+```cpp
+class Book 
+{
+public:
+    Book(unsigned isbn, std::string const& name, std::string const& author, std::string const& pubdate)
+        :isbn_(isbn), name_(name), author_(author), pubdate_(pubdate)
+    { }
+
+    explicit Book(std::istream &in) 
+    { 
+        in >> isbn_ >> name_ >> author_ >> pubdate_;
+    }
+
+private:
+    unsigned isbn_;
+    std::string name_;
+    std::string author_;
+    std::string pubdate_;
+};
+```
+
+## 练习7.41 : [头文件](exercise7_41.h) | [源文件](exercise7_41.cpp) | [主函数](exercise7_41_main.cpp)
+
+> 使用委托构造函数重新编写你的Sales_data 类，给每个构造函数体添加一条语句，令其一旦执行就打印一条信息。用各种可能的方式分别创建 Sales_data 对象，认真研究每次输出的信息直到你确实理解了委托构造函数的执行顺序。
+
+## 练习7.42
+
+> 对于你在练习7.40中编写的类，确定哪些构造函数可以使用委托。如果可以的话，编写委托构造函数。如果不可以，从抽象概念列表中重新选择一个你认为可以使用委托构造函数的，为挑选出的这个概念编写类定义。
+
+```cpp
+class Book 
+{
+public:
+    Book(unsigned isbn, std::string const& name, std::string const& author, std::string const& pubdate)
+        :isbn_(isbn), name_(name), author_(author), pubdate_(pubdate)
+    { }
+
+    Book(unsigned isbn) : Book(isbn, "", "", "") {}
+
+    explicit Book(std::istream &in) 
+    { 
+        in >> isbn_ >> name_ >> author_ >> pubdate_;
+    }
+
+private:
+    unsigned isbn_;
+    std::string name_;
+    std::string author_;
+    std::string pubdate_;
+};
+```
+
