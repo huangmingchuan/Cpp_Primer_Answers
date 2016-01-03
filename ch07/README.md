@@ -475,3 +475,113 @@ getSize(34);
 void print(std::string);
 print("hello world");
 ```
+
+## 练习7.52
+
+> 使用2.6.1节的 Sales_data 类，解释下面的初始化过程。如果存在问题，尝试修改它。
+```cpp
+	Sales_data item = {"987-0590353403", 25, 15.99};
+```
+
+Sales_data 类不是聚合类，应该修改成如下：
+```cpp
+struct Sales_data {
+    std::string bookNo;
+    unsigned units_sold;
+    double revenue;
+};
+```
+
+## 练习7.53
+
+> 定义你自己的 Debug。
+
+```cpp
+class Debug {
+public:
+    constexpr Debug(bool b = true) : hw(b), io(b), other(b) { }
+    constexpr Debug(bool h, bool i, bool o) : hw(r), io(i), other(0) { }
+
+    constexpr bool any() { return hw || io || other; }
+    void set_hw(bool b) { hw = b; }
+    void set_io(bool b) { io = b; }
+    void set_other(bool b) { other = b; }
+    
+private:
+    bool hw;        // runtime error
+    bool io;        // I/O error
+    bool other;     // the others
+};
+```
+
+## 练习7.54
+> Debug中以 set_ 开头的成员应该被声明成 constexpr 吗？如果不，为什么？
+
+不能。constexpr 函数必须包含一个返回语句。
+
+## 练习7.55
+
+> 7.5.5节的 Data 类是字面值常量类吗？请解释原因。
+
+不是。因为 std::string 不是字面值类型。 
+
+## 练习7.56
+
+> 什么是类的静态成员？它有何优点？静态成员与普通成员有何区别？
+
+与类本身相关，而不是与类的各个对象相关的成员是静态成员。静态成员能用于某些场景，而普通成员不能。
+
+## 练习7.57
+
+> 编写你自己的 Account 类。
+
+```cpp
+class Account {
+public:
+    void calculate() { amount += amount * interestRate; }
+    static double rate() { return interestRate; }
+    static void rate(double newRate) { interestRate = newRate; }
+    
+private:
+    std::string owner;
+    double amount;
+    static double interestRate;
+    static constexpr double todayRate = 42.42;
+    static double initRate() { return todayRate; }
+};
+
+double Account::interestRate = initRate();
+```
+
+## 练习7.58
+
+> 下面的静态数据成员的声明和定义有错误吗？请解释原因。
+```cpp
+//example.h
+class Example {
+public:
+	static double rate = 6.5;
+	static const int vecSize = 20;
+	static vector<double> vec(vecSize);
+};
+//example.c
+#include "example.h"
+double Example::rate;
+vector<double> Example::vec;
+```
+
+rate 应该是一个常量表达式。而类内只能初始化整型类型的静态常量，所以不能在类内初始化vec。修改后如下：
+```cpp
+// example.h
+class Example {
+public:
+    static constexpr double rate = 6.5;
+    static const int vecSize = 20;
+    static vector<double> vec;
+};
+
+// example.C
+#include "example.h"
+constexpr double Example::rate;
+vector<double> Example::vec(Example::vecSize);
+```
