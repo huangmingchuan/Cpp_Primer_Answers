@@ -75,4 +75,89 @@ while (iter1 != iter2)
 
 ## 练习9.7
 
-> 
+> 为了索引int 的 vector中的元素，应该使用什么类型？
+
+```cpp
+vector<int>::size_type
+```
+
+## 练习9.8
+
+> 为了读取string 的list 中的元素，应该使用什么类型？如果写入list，又应该使用什么类型？
+
+```cpp
+list<string>::const_iterator // 读
+list<string>::iterator // 写
+```
+
+## 练习9.9
+
+> begin 和 cbegin 两个函数有什么不同？
+
+## 练习9.10
+
+> 下面4个对象分别是什么类型？
+```cpp
+vector<int> v1;
+const vector<int> v2;
+auto it1 = v1.begin(), it2 = v2.begin();
+auto it3 = v1.cbegin(), it4 = v2.cbegin();
+```
+
+## 练习9.11
+
+> 对6种创建和初始化 vector 对象的方法，每一种都给出一个实例。解释每个vector包含什么值。
+
+## 练习9.12
+
+> 对于接受一个容器创建其拷贝的构造函数，和接受两个迭代器创建拷贝的构造函数，解释它们的不同。
+
+## 练习9.13
+
+> 如何从一个list<int>初始化一个vector<double>？从一个vector<int>又该如何创建？编写代码验证你的答案。
+
+## 练习9.14
+
+> 编写程序，将一个list中的char * 指针元素赋值给一个vector中的string。
+
+## 练习9.15
+
+> 编写程序，判定两个vector<int>是否相等。
+
+## 练习9.16
+
+> 重写上一题的程序，比较一个list<int>中的元素和一个vector<int>中的元素。
+
+## 练习9.17
+
+> 假定c1 和 c2 是两个容器，下面的比较操作有何限制？
+```cpp
+	if (c1 < c2)
+```
+
+## 练习9.18
+
+> 编写程序，从标准输入读取string序列，存入一个deque中。编写一个循环，用迭代器打印deque中的元素。
+
+## 练习9.19
+
+> 重写上一题的程序，用list替代deque。列出程序要做出哪些改变。
+
+## 练习9.20
+
+> 编写程序，从一个list<int>拷贝元素到两个deque中。值为偶数的所有元素都拷贝到一个deque中，而奇数值元素都拷贝到另一个deque中。
+
+## 练习9.21
+
+> 如果我们将第308页中使用 insert 返回值将元素添加到list中的循环程序改写为将元素插入到vector中，分析循环将如何工作。
+
+## 练习9.22
+
+> 假定iv是一个int的vector，下面的程序存在什么错误？你将如何修改？
+```cpp
+vector<int>::iterator iter = iv.begin(),
+					  mid = iv.begin() + iv.size() / 2;
+while (iter != mid)
+	if (*iter == some_val)
+		iv.insert(iter, 2 * some_val);
+```
