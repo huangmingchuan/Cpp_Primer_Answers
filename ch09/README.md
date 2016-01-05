@@ -105,16 +105,19 @@ const vector<int> v2;
 auto it1 = v1.begin(), it2 = v2.begin();
 auto it3 = v1.cbegin(), it4 = v2.cbegin();
 ```
+
 这里的代码在 VS2013 下是有错误的。
 * 错误	1	error C3538: 在声明符列表中，“auto”必须始终推导为同一类型	
 因此代码要改为
+
 ```cpp
 auto it1 = v1.begin();
 auto it2 = v2.begin(), it3 = v1.cbegin(), it4 = v2.cbegin();
 ```
-`it1` 是 vector<int>::iterator
 
-`it2`，`it3` 和 `it4` 是 vector<int>::const_iterator
+`it1` 是 `vector<int>::iterator`
+
+`it2`，`it3` 和 `it4` 是 `vector<int>::const_iterator`
 
 
 ## 练习9.11
