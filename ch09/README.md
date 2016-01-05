@@ -251,3 +251,44 @@ while (iter != mid)
 }
 ```
 
+## 练习9.23
+
+> 在本节第一个程序中，若 c.size() 为1，则val、val2、val3和val4的值会是什么？
+
+都会是同一个值（容器中仅有的那个）。
+
+## [练习9.24](exercise9_24.cpp)
+
+> 编写程序，分别使用 at、下标运算符、front 和 begin 提取一个vector中的第一个元素。在一个空vector上测试你的程序。
+
+## 练习9.25
+
+> 对于第312页中删除一个范围内的元素的程序，如果 elem1 与 elem2 相等会发生什么？如果 elem2 是尾后迭代器，或者 elem1 和 elem2 皆为尾后迭代器，又会发生什么？
+
+* 如果 elem1 和 elem2 相等，那么不会发生任何操作。
+* 如果elem2 是尾后迭代器，那么删除从 elem1 到最后的元素。
+* 如果两者皆为尾后迭代器，也什么都不会发生。
+
+## 练习9.26
+
+> 使用下面代码定义的ia，将ia 拷贝到一个vector和一个list中。是用单迭代器版本的erase从list中删除奇数元素，从vector中删除偶数元素。
+```cpp
+int ia[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 55, 89 };
+```
+
+```cpp
+vector<int> vec(ia, end(ia));
+list<int> lst(vec.begin(), vec.end());
+
+for (auto it = lst.begin(); it != lst.end(); )
+	if (*it & 0x1)
+		it = lst.erase(it);
+	else 
+		++it;
+
+for (auto it = vec.begin(); it != vec.end(); )
+	if (!(*it & 0x1))
+		it = vec.erase(it);
+	else
+		++it;			
+```
