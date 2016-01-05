@@ -237,6 +237,7 @@ while (iter != mid)
 
 * 循环不会结束
 * 迭代器可能会失效
+
 要改为下面这样：
 ```cpp
 while (iter != mid)
