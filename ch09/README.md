@@ -94,6 +94,8 @@ list<string>::iterator // 写
 
 > begin 和 cbegin 两个函数有什么不同？
 
+`begin` 返回的是普通迭代器，`cbegin` 返回的是常量迭代器。
+
 ## 练习9.10
 
 > 下面4个对象分别是什么类型？
@@ -103,14 +105,37 @@ const vector<int> v2;
 auto it1 = v1.begin(), it2 = v2.begin();
 auto it3 = v1.cbegin(), it4 = v2.cbegin();
 ```
+这里的代码在 VS2013 下是有错误的。
+* 错误	1	error C3538: 在声明符列表中，“auto”必须始终推导为同一类型	
+因此代码要改为
+```cpp
+auto it1 = v1.begin();
+auto it2 = v2.begin(), it3 = v1.cbegin(), it4 = v2.cbegin();
+```
+`it1` 是 vector<int>::iterator
+
+`it2`，`it3` 和 `it4` 是 vector<int>::const_iterator
+
 
 ## 练习9.11
 
 > 对6种创建和初始化 vector 对象的方法，每一种都给出一个实例。解释每个vector包含什么值。
 
+```cpp
+vector<int> vec;    // 0
+vector<int> vec(10);    // 0
+vector<int> vec(10, 1);  // 1
+vector<int> vec{ 1, 2, 3, 4, 5 }; // 1, 2, 3, 4, 5
+vector<int> vec(other_vec); // 拷贝 other_vec 的元素
+vector<int> vec(other_vec.begin(), other_vec.end()); // 拷贝 other_vec 的元素
+```
+
 ## 练习9.12
 
 > 对于接受一个容器创建其拷贝的构造函数，和接受两个迭代器创建拷贝的构造函数，解释它们的不同。
+
+* 接受一个容器创建其拷贝的构造函数，必须容器类型和元素类型都相同。
+* 接受两个迭代器创建拷贝的构造函数，只需要元素的类型能够相互转换，容器类型和元素类型可以不同。
 
 ## 练习9.13
 
