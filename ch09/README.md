@@ -301,17 +301,58 @@ for (auto it = vec.begin(); it != vec.end(); )
 
 > 编写函数，接受一个forward_list<string>和两个string共三个参数。函数应在链表中查找第一个string，并将第二个string插入到紧接着第一个string之后的位置。若第一个string未在链表中，则将第二个string插入到链表末尾。
 
+```cpp
+void find_and_insert(forward_list<string>& flst, const string& s1, const string& s2)
+{
+	auto prev = flst.before_begin();
+	auto curr = flst.begin();
+	while (curr != flst.end())
+	{
+		if (*curr == s1)
+		{
+			flst.insert_after(curr, s2);
+			return;
+	    }
+	    prev = curr;
+	    ++curr;
+    }
+    flst.insert_after(prev, s2);
+}
+```
+
 ## 练习9.29
 
 > 假定vec包含25个元素，那么vec.resize(100)会做什么？如果接下来调用vec.resize(10)会做什么？
+
+* 将75个值为0的元素添加到vec的末尾
+* 从vec的末尾删除90个元素
 
 ## 练习9.30
 
 > 接受单个参数的resize版本对元素类型有什么限制（如果有的话）？
 
+元素类型必须提供一个默认构造函数。
+
 ## 练习9.31
 
 > 第316页中删除偶数值元素并复制奇数值元素的程序不能用于list或forward_list。为什么？修改程序，使之也能用于这些类型。
+
+```cpp
+iter += 2;
+```
+因为复合赋值语句只能用于 string、vector、deque、array，所以要改为：
+```cpp
+++iter;
+++iter;
+```
+如果是forward_list的话，要增加一个首先迭代器 prev：
+```cpp
+auto prev = flst.before_begin();
+//...
+curr == flst.insert_after(prev, *curr);
+++curr; ++curr;
+++prev; ++prev;
+```
 
 ## 练习9.32
 
@@ -320,29 +361,153 @@ for (auto it = vec.begin(); it != vec.end(); )
 iter = vi.insert(iter, *iter++);
 ```
 
-## 练习9.33
+不合法。因为参数的求值顺序是未指定的。
+
+## [练习9.33](exercise9_33.cpp)
 
 > 在本节最后一个例子中，如果不将insert的结果赋予begin，将会发生什么？编写程序，去掉此赋值语句，验证你的答案。
 
-## 练习9.34
+begin 将会失效。
+
+## [练习9.34](exercise9_34.cpp)
 
 > 假定vi是一个保存int的容器，其中有偶数值也有奇数值，分析下面循环的行为，然后编写程序验证你的分析是否正确。
+```cpp
+iter = vi.begin();
+while (iter != vi.end())
+	if (*iter % 2)
+		iter = vi.insert(iter, *iter);
+	++iter;
+```
+
+循环永远不会结束。
 
 ## 练习9.35
 
 > 解释一个vector的capacity和size有何区别。
 
+* capacity 的值表明，在不重新分配内存空间的情况下，容器可以保存多少元素
+* 而 size 的值是指容器已经保存的元素的数量
+
 ## 练习9.36
 
 > 一个容器的capacity可能小于它的size吗？
+
+不可能。
 
 ## 练习9.37
 
 > 为什么list或array没有capacity成员函数？
 
-## 练习9.38
+因为 list 是链表，而 array 不允许改变容器大小。
+
+## [练习9.38](exercise9_38.cpp)
 
 > 编写程序，探究在你的标准实现中，vector是如何增长的。
+
+```
+capacity: 0  size: 0
+capacity: 1  size: 1
+capacity: 2  size: 2
+capacity: 3  size: 3
+capacity: 4  size: 4
+capacity: 6  size: 5
+capacity: 6  size: 6
+capacity: 9  size: 7
+capacity: 9  size: 8
+capacity: 9  size: 9
+capacity: 13  size: 10
+capacity: 13  size: 11
+capacity: 13  size: 12
+capacity: 13  size: 13
+capacity: 19  size: 14
+capacity: 19  size: 15
+capacity: 19  size: 16
+capacity: 19  size: 17
+capacity: 19  size: 18
+capacity: 19  size: 19
+capacity: 28  size: 20
+capacity: 28  size: 21
+capacity: 28  size: 22
+capacity: 28  size: 23
+capacity: 28  size: 24
+capacity: 28  size: 25
+capacity: 28  size: 26
+capacity: 28  size: 27
+capacity: 28  size: 28
+capacity: 42  size: 29
+capacity: 42  size: 30
+capacity: 42  size: 31
+capacity: 42  size: 32
+capacity: 42  size: 33
+capacity: 42  size: 34
+capacity: 42  size: 35
+capacity: 42  size: 36
+capacity: 42  size: 37
+capacity: 42  size: 38
+capacity: 42  size: 39
+capacity: 42  size: 40
+capacity: 42  size: 41
+capacity: 42  size: 42
+capacity: 63  size: 43
+capacity: 63  size: 44
+capacity: 63  size: 45
+capacity: 63  size: 46
+capacity: 63  size: 47
+capacity: 63  size: 48
+capacity: 63  size: 49
+capacity: 63  size: 50
+capacity: 63  size: 51
+capacity: 63  size: 52
+capacity: 63  size: 53
+capacity: 63  size: 54
+capacity: 63  size: 55
+capacity: 63  size: 56
+capacity: 63  size: 57
+capacity: 63  size: 58
+capacity: 63  size: 59
+capacity: 63  size: 60
+capacity: 63  size: 61
+capacity: 63  size: 62
+capacity: 63  size: 63
+capacity: 94  size: 64
+capacity: 94  size: 65
+capacity: 94  size: 66
+capacity: 94  size: 67
+capacity: 94  size: 68
+capacity: 94  size: 69
+capacity: 94  size: 70
+capacity: 94  size: 71
+capacity: 94  size: 72
+capacity: 94  size: 73
+capacity: 94  size: 74
+capacity: 94  size: 75
+capacity: 94  size: 76
+capacity: 94  size: 77
+capacity: 94  size: 78
+capacity: 94  size: 79
+capacity: 94  size: 80
+capacity: 94  size: 81
+capacity: 94  size: 82
+capacity: 94  size: 83
+capacity: 94  size: 84
+capacity: 94  size: 85
+capacity: 94  size: 86
+capacity: 94  size: 87
+capacity: 94  size: 88
+capacity: 94  size: 89
+capacity: 94  size: 90
+capacity: 94  size: 91
+capacity: 94  size: 92
+capacity: 94  size: 93
+capacity: 94  size: 94
+capacity: 141  size: 95
+capacity: 141  size: 96
+capacity: 141  size: 97
+capacity: 141  size: 98
+capacity: 141  size: 99
+请按任意键继续. . .
+```
 
 ## 练习9.39
 
@@ -356,31 +521,44 @@ while (cin >> word)
 svec.resize(svec.size() + svec.size() / 2);
 ```
 
+定义一个 vector，为它分配1024个元素的空间。然后通过一个循环从标准输入中读取字符串并添加到vector当中。循环结束后，改变vector的容器大小（元素数量）为原来的1.5倍，使用元素的默认初始化值填充。如果容器的大小超过1024，vector也会重新分配空间以容纳新增的元素。
+
 ## 练习9.40
 
 > 如果上一题的程序读入了256个词，在resize之后容器的capacity可能是多少？如果读入了512个、1000个、或1048个呢？
+
+* 如果读入了256个词，capacity 仍然是 1024
+* 如果读入了512个词，capacity 仍然是 1024
+* 如果读入了1000或1048个词，capacity 取决于具体实现。
 
 ## 练习9.41
 
 > 编写程序，从一个vector<char>初始化一个string。
 
+```cpp
+    vector<char> v{ 'h', 'e', 'l', 'l', 'o' };
+    string str(v.cbegin(), v.cend());
+```
+
 ## 练习9.42
 
 > 假定你希望每次读取一个字符存入一个string中，而且知道最少需要读取100个字符，应该如何提高程序的性能？
 
-## 练习9.43
+使用 `reserve(100)` 函数预先分配100个元素的空间。
+
+## [练习9.43](exercise9_43.cpp)
 
 > 编写一个函数，接受三个string参数是s、oldVal 和newVal。使用迭代器及insert和erase函数将s中所有oldVal替换为newVal。测试你的程序，用它替换通用的简写形式，如，将"tho"替换为"though",将"thru"替换为"through"。
 
-## 练习9.44
+## [练习9.44](exercise9_44.cpp)
 
 > 重写上一题的函数，这次使用一个下标和replace。
 
-## 练习9.45
+## [练习9.45](exercise9_45.cpp)
 
 > 编写一个函数，接受一个表示名字的string参数和两个分别表示前缀（如"Mr."或"Mrs."）和后缀（如"Jr."或"III"）的字符串。使用迭代器及insert和append函数将前缀和后缀添加到给定的名字中，将生成的新string返回。
 
-## 练习9.46
+## [练习9.46](exercise9_46.cpp)
 
 > 重写上一题的函数，这次使用位置和长度来管理string，并只使用insert。
 
