@@ -292,3 +292,67 @@ for (auto it = vec.begin(); it != vec.end(); )
 	else
 		++it;			
 ```
+
+## [练习9.27]()
+
+> 编写程序，查找并删除forward_list<int>中的奇数元素。
+
+## 练习9.28
+
+> 编写函数，接受一个forward_list<string>和两个string共三个参数。函数应在链表中查找第一个string，并将第二个string插入到紧接着第一个string之后的位置。若第一个string未在链表中，则将第二个string插入到链表末尾。
+
+## 练习9.29
+
+> 假定vec包含25个元素，那么vec.resize(100)会做什么？如果接下来调用vec.resize(10)会做什么？
+
+## 练习9.30
+
+> 接受单个参数的resize版本对元素类型有什么限制（如果有的话）？
+
+## 练习9.31
+
+> 第316页中删除偶数值元素并复制奇数值元素的程序不能用于list或forward_list。为什么？修改程序，使之也能用于这些类型。
+
+## 练习9.32
+
+> 在第316页的程序中，向下面语句这样调用insert是否合法？如果不合法，为什么？
+```cpp
+iter = vi.insert(iter, *iter++);
+```
+
+## 练习9.33
+
+> 在本节最后一个例子中，如果不将insert的结果赋予begin，将会发生什么？编写程序，去掉此赋值语句，验证你的答案。
+
+## 练习9.34
+
+> 假定vi是一个保存int的容器，其中有偶数值也有奇数值，分析下面循环的行为，然后编写程序验证你的分析是否正确。
+
+## 练习9.35
+
+> 解释一个vector的capacity和size有何区别。
+
+## 练习9.36
+
+> 一个容器的capacity可能小于它的size吗？
+
+## 练习9.37
+
+> 为什么list或array没有capacity成员函数？
+
+## 练习9.38
+
+> 编写程序，探究在你的标准实现中，vector是如何增长的。
+
+## 练习9.39
+
+> 解释下面程序片段做了什么：
+```cpp
+vector<string> svec;
+svec.reserve(1024);
+string word;
+while (cin >> word)
+	svec.push_back(word);
+svec.resize(svec.size() + svec.size() / 2);
+```
+
