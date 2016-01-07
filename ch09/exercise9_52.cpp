@@ -34,7 +34,7 @@ int main()
 			string r = stack.top(); stack.pop();
 			string op = stack.top(); stack.pop();
 			string l = stack.top(); stack.pop();
-			stack.pop(); // '(' µ¯³ö
+			stack.pop(); // '(' å¼¹å‡º
 			stack.push(calc(l, r, op));
 			++iter;
 		}
