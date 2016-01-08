@@ -30,7 +30,6 @@
 	while (cin >> i)
 		lst.push_back(i);
 	copy(lst.cbegin(), lst.cend(), vec.begin());
-
 (b) vector<int> vec;
 	vec.reserve(10);
 	fill_n(vec.begin(), 10, 0);
