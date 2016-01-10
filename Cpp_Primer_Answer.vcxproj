@@ -14,7 +14,7 @@
     <ClInclude Include="ch10\exercise7_26.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch10\exercise10_13.cpp" />
+    <ClCompile Include="ch10\exercise10_25.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAEE1AD0-0D58-421C-BAF5-604CEA494D9C}</ProjectGuid>
