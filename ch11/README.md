@@ -2,15 +2,23 @@
 
 > 描述map 和 vector 的不同。
 
+`map` 是关联容器， `vector` 是顺序容器。
+
 ## 练习11.2
 
 > 分别给出最适合使用 list、vector、deque、map以及set的例子。
 
-## 练习11.3
+* `list`：双向链表，适合频繁插入删除元素的场景。
+* `vector`：适合频繁访问元素的场景。
+* `deque`：双端队列，适合频繁在头尾插入删除元素的场景。
+* `map`：字典。
+* `set`：适合有序不重复的元素的场景。
+
+## [练习11.3](exercise11_3.cpp)
 
 > 编写你自己的单词计数程序。
 
-## 练习11.4
+## [练习11.4](exercise11_4.cpp)
 
 > 扩展你的程序，忽略大小写和标点。例如，"example."、"example,"和"Example"应该递增相同的计数器。
 
@@ -18,17 +26,30 @@
 
 > 解释map和set的区别。你如何选择使用哪个？
 
+map 是键值对，而 set 只有键没有值。当我需要存储键值对的时候使用 map，而只需要键的时候使用 set。
+
 ## 练习11.6
 
 > 解释set和list 的区别。你如何选择使用哪个？
+
+set 是有序不重复集合，底层实现是红黑树，而 list 是无序可重复集合，底层实现是链表。
 
 ## 练习11.7
 
 > 定义一个map，关键字是家庭的姓，值是一个vector，保存家中孩子（们）的名。编写代码，实现添加新的家庭以及向已有家庭中添加新的孩子。
 
-## 练习11.8
+```cpp
+	map<string, vector<string>> m;
+    for (string ln; cout << "Last name:\n", cin >> ln && ln != "@q";)
+        for (string cn; cout << "|-Children's names:\n", cin >> cn && cn != "@q";)
+            m[ln].push_back(cn);
+```
+
+## [练习11.8](exercise11_8.cpp)
 
 > 编写一个程序，在一个vector而不是一个set中保存不重复的单词。使用set的优点是什么？
+
+set 的优点是集合本身的元素就是不重复。
 
 ## 练习11.9
 
