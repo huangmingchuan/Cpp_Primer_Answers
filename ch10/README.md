@@ -138,47 +138,51 @@ auto f = [i] { return --i > 0 ? true : false; };
 
 > 解释三种迭代器的不同之处。
 
-## 练习10.27
+* `back_inserter` 使用 `push_back` 。
+* `front_inserter` 使用 `push_front` 。
+* `inserter` 使用 `insert`，此函数接受第二个参数，这个参数必须是一个指向给定容器的迭代器。元素将被插入到给定迭代器所表示的元素之前。
+
+## [练习10.27](exercise10_27.cpp)
 
 > 除了 unique 之外，标准库还定义了名为 unique_copy 的函数，它接受第三个迭代器，表示拷贝不重复元素的目的位置。编写一个程序，使用 unique_copy将一个vector中不重复的元素拷贝到一个初始化为空的list中。
 
-## 练习10.28
+## [练习10.28](exercise10_28.cpp)
 
 > 一个vector 中保存 1 到 9，将其拷贝到三个其他容器中。分别使用inserter、back_inserter 和 front_inserter 将元素添加到三个容器中。对每种 inserter，估计输出序列是怎样的，运行程序验证你的估计是否正确。
 
-## 练习10.29
+## [练习10.29](exercise10_29.cpp)
 
 > 编写程序，使用流迭代器读取一个文本文件，存入一个vector中的string里。
 
-## 练习10.30
+## [练习10.30](exercise10_30.cpp)
 
 > 使用流迭代器、sort 和 copy 从标准输入读取一个整数序列，将其排序，并将结果写到标准输出。
 
-## 练习10.31
+## [练习10.31](exercise10_31.cpp)
 
 > 修改前一题的程序，使其只打印不重复的元素。你的程序应该使用 unique_copy。
 
-## 练习10.32
+## [练习10.32](exercise10_32.cpp)
 
 > 重写1.6节中的书店程序，使用一个vector保存交易记录，使用不同算法完成处理。使用 sort 和10.3.1节中的 compareIsbn 函数来排序交易记录，然后使用 find 和 accumulate 求和。
 
-## 练习10.33
+## [练习10.33](exercise10_33.cpp)
 
 > 编写程序，接受三个参数：一个输入文件和两个输出文件的文件名。输入文件保存的应该是整数。使用 istream_iterator 读取输入文件。使用 ostream_iterator 将奇数写入第一个输入文件，每个值后面都跟一个空格。将偶数写入第二个输出文件，每个值都独占一行。
 
-## 练习10.34
+## [练习10.34](exercise10_34.cpp)
 
 > 使用 reverse_iterator 逆序打印一个vector。
 
-## 练习10.35
+## [练习10.35](exercise10_35.cpp)
 
 > 使用普通迭代器逆序打印一个vector。
 
-## 练习10.36
+## [练习10.36](exercise10_36.cpp)
 
 > 使用 find 在一个 int 的list 中查找最后一个值为0的元素。
 
-## 练习10.37
+## [练习10.37](exercise10_37.cpp)
 
 > 给定一个包含10 个元素的vector，将位置3到7之间的元素按逆序拷贝到一个list中。
 

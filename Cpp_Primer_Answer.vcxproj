@@ -12,9 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ch10\exercise7_26.h" />
+    <ClInclude Include="data\Sales_item.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch10\exercise10_25.cpp" />
+    <ClCompile Include="ch10\exercise10_37.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAEE1AD0-0D58-421C-BAF5-604CEA494D9C}</ProjectGuid>
