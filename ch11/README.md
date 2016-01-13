@@ -122,18 +122,29 @@ copy(c.begin(), c.end(), back_inserter(v));
 
 第二个调用不合法，因为 multiset 没有 push_back 方法。其他调用都合法。
 
-
 ## 练习11.18
 
 > 写出第382页循环中map_it 的类型，不要使用auto 或 decltype。
+
+```cpp
+map<string, size_t>::const_iterator map_it = word_count.cbegin();
+```
 
 ## 练习11.19
 
 > 定义一个变量，通过对11.2.2节中的名为 bookstore 的multiset 调用begin()来初始化这个变量。写出变量的类型，不要使用auto 或 decltype。
 
-## 练习11.20
+```cpp
+using compareType = bool (*)(const Sales_data &lhs, const Sales_data &rhs);
+std::multiset<Sales_data, compareType> bookstore(compareIsbn);
+std::multiset<Sales_data, compareType>::iterator c_it = bookstore.begin();
+```
+
+## [练习11.20](exercise11_20.cpp)
 
 > 重写11.1节练习的单词计数程序，使用insert代替下标操作。你认为哪个程序更容易编写和阅读？解释原因。
+
+使用 insert 更容易阅读和编写。insert 有返回值，可以明确的体现出插入操作的结果。
 
 ## 练习11.21
 
@@ -143,11 +154,26 @@ while (cin >> word)
 	++word_count.insert({word, 0}).first->second;
 ```
 
+这条语句等价于：
+```cpp
+while (cin >> word)
+{
+	auto result = word_count.insert({word, 0});
+	++(result.first->second);
+}
+```
+先添加一个元素，然后返回一个 pair，pair 的 first 元素是一个迭代器。这个迭代器指向刚刚添加的元素，这个元素是 pair ，然后递增 pair 的 second 成员。
+
 ## 练习11.22
 
 > 给定一个map<string, vector<int>>，对此容器的插入一个元素的insert版本，写出其参数类型和返回类型。
 
-## 练习11.23
+```cpp
+std::pair<std::string, std::vector<int>>    // 参数类型
+std::pair<std::map<std::string, std::vector<int>>::iterator, bool> // 返回类型
+```
+
+## [练习11.23](exercise11_23.cpp)
 
 > 11.2.1节练习中的map 以孩子的姓为关键字，保存他们的名的vector，用multimap 重写此map。
 
@@ -159,6 +185,8 @@ map<int, int> m;
 m[0] = 1;
 ```
 
+添加一个元素到 map 中，如果该键存在，则重新赋值。
+
 ## 练习11.25
 
 > 对比下面的程序与上一题程序
@@ -167,17 +195,32 @@ vector<int> v;
 v[0] = 1;
 ```
 
+未定义行为，vector 的下标越界访问。
+
 ## 练习11.26
 
 > 可以用什么类型来对一个map进行下标操作？下标运算符返回的类型是什么？请给出一个具体例子——即，定义一个map，然后写出一个可以用来对map进行下标操作的类型以及下标运算符将会返会的类型。
+
+```cpp
+std::map<int, std::string> m = { { 1,"ss" },{ 2,"sz" } };
+using KeyType = std::map<int, std::string>::key_type;	
+using ReturnType = std::map<int, std::string>::mapped_type;
+```
 
 ## 练习11.27
 
 > 对于什么问题你会使用count来解决？什么时候你又会选择find呢？
 
+对于允许重复关键字的容器，应该用 count ; 对于不允许重复关键字的容器，应该用 find 。
+
 ## 练习11.28
 
 > 对一个string到int的vector的map，定义并初始化一个变量来保存在其上调用find所返回的结果。
+
+```cpp
+map<string, vector<int>> m;
+map<string, vector<int>>::iterator it = m.find("key");
+```
 
 ## 练习11.29
 
