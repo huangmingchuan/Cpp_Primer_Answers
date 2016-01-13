@@ -55,15 +55,26 @@ set 的优点是集合本身的元素就是不重复。
 
 > 定义一个map，将单词与一个行号的list关联，list中保存的是单词所出现的行号。
 
+```cpp
+std::map<std::string, std::list<std::size_t>> m;
+```
+
 ## 练习11.10
 
 > 可以定义一个vector<int>::iterator 到 int 的map吗？list<int>::iterator 到 int 的map呢？对于两种情况，如果不能，解释为什么。
+
+可以定义 `vector<int>::iterator` 到 `int` 的map，但是不能定义 `list<int>::iterator` 到 `int` 的map。因为map的键必须实现 `<` 操作，list 的迭代器不支持比较运算。
 
 ## 练习11.11
 
 > 不使用decltype 重新定义 bookstore。
 
-## 练习11.12
+```cpp
+using Less = bool (*)(Sales_data const&, Sales_data const&);
+std::multiset<Sales_data, Less> bookstore(less);
+```
+
+## [练习11.12](exercise11_12.cpp)
 
 > 编写程序，读入string和int的序列，将每个string和int存入一个pair 中，pair保存在一个vector中。
 
@@ -71,7 +82,14 @@ set 的优点是集合本身的元素就是不重复。
 
 > 在上一题的程序中，至少有三种创建pair的方法。编写此程序的三个版本，分别采用不同的方法创建pair。解释你认为哪种形式最易于编写和理解，为什么？
 
-## 练习11.14
+```cpp
+vec.push_back(std::make_pair(str, i));
+vec.push_back({ str, i });
+vec.push_back(std::pair<string, int>(str, i)); 
+```
+使用花括号的初始化器最易于理解和编写。
+
+## [练习11.14](exercise11_14.cpp)
 
 > 扩展你在11.2.1节练习中编写的孩子姓达到名的map，添加一个pair的vector，保存孩子的名和生日。
 
@@ -79,9 +97,18 @@ set 的优点是集合本身的元素就是不重复。
 
 > 对一个int到vector<int>的map，其mapped_type、key_type和 value_type分别是什么？
 
+* mapped_type : vector<int>
+* key_type : int
+* value_type : std::pair<const int,vector >
+
 ## 练习11.16
 
 > 使用一个map迭代器编写一个表达式，将一个值赋予一个元素。
+
+```cpp
+std::map<int, string>::iterator it = m.begin();
+it->second = "hello";
+```
 
 ## 练习11.17
 
@@ -92,6 +119,9 @@ copy(v.begin(), v.end(), back_inserter(c));
 copy(c.begin(), c.end(), inserter(v, v.end()));
 copy(c.begin(), c.end(), back_inserter(v));
 ```
+
+第二个调用不合法，因为 multiset 没有 push_back 方法。其他调用都合法。
+
 
 ## 练习11.18
 
