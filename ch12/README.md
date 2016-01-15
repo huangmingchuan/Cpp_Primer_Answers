@@ -114,17 +114,19 @@ delete p;
 
 智能指针 sp 所指向空间已经被释放，再对 sp 进行操作会出现错误。
 
-## 练习12.14
+## [练习12.14](exercise12_14.cpp)
 
 > 编写你自己版本的用 shared_ptr 管理 connection 的函数。
 
-## 练习12.15
+## [练习12.15](exercise12_15.cpp)
 
 > 重写第一题的程序，用 lambda 代替end_connection 函数。
 
-## 练习12.16
+## [练习12.16](exercise12_16.cpp)
 
 > 如果你试图拷贝或赋值 unique_ptr，编译器并不总是能给出易于理解的错误信息。编写包含这种错误的程序，观察编译器如何诊断这种错误。
+
+**尝试引用已删除的函数.**
 
 ## 练习12.17
 
@@ -140,11 +142,20 @@ typedef unique_ptr<int> IntP;
 (f) IntP p5(p2.get());
 ```
 
+* (a) 不合法。在定义一个 unique_ptr 时，需要将其绑定到一个new 返回的指针上。
+* (b) 合法。但是可能会有后续的程序错误。当 p1 被释放时，p1 所指向的对象也被释放，所以导致 pi 成为一个空悬指针。
+* (c) 合法。但是也可能会使得 pi2 成为空悬指针。
+* (d) 不合法。当 p3 被销毁时，它试图释放一个栈空间的对象。
+* (e) 合法。
+* (f) 不合法。p5 和 p2 指向同一个对象，当 p5 和 p2 被销毁时，会使得同一个指针被释放两次。
+
 ## 练习12.18
 
 > shared_ptr 为什么没有 release 成员？
 
-## 练习12.19
+release 成员的作用是放弃控制权并返回指针，因为在某一时刻只能有一个 unique_ptr 指向某个对象，unique_ptr 不能被赋值，所以要使用 release 成员将一个 unique_ptr 的指针的所有权传递给另一个 unique_ptr。而 shared_ptr 允许有多个 shared_ptr 指向同一个对象，因此不需要 release 成员。
+
+## [练习12.19](exercise12_19.h)
 
 > 定义你自己版本的 StrBlobPtr，更新 StrBlob 类，加入恰当的 friend 声明以及 begin 和 end 成员。
 
