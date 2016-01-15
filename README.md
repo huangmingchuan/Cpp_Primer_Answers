@@ -1,7 +1,10 @@
 # 《C++ Primer》第五版中文版习题答案
-这是我在学习《C++ Primer》时的记录，开发环境使用Visual Studio 2013。
+######说明：
+* 我的这个项目大量参考了[Cpp-Primer](https://github.com/Mooophy/Cpp-Primer)，我也有过和原作者的讨论并提交过 pull request。所以不能说是我抄的，而且读书人的事，怎么能算抄呢。。。
+* 要说 google 是世界上最好的搜索引擎，那么百度则是世界上**最懂中文的**搜索引擎。
+* 编译器是 Visual Studio 2013
 
-###内容 
+####下面是目录：
 - [第1章 : 开始](ch01/README.md)
 - 第 I 部分 : C++基础
 	- [第2章 : 变量和基本类型](ch02/README.md)
@@ -25,6 +28,7 @@
 	- [第17章 : 标准库与特殊设施](ch17/README.md)
 	- [第18章 : 用于大型程序的工具](ch18/README.md)
 	- [第19章 : 特殊工具与技术](ch19/README.md)
+
 
 
 
