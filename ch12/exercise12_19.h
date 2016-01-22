@@ -27,7 +27,7 @@ public:
 	bool empty() const { return data->empty(); }
 
 	void push_back(const string& s) { data->push_back(s); }
-	void pup_back()
+	void pop_back()
 	{
 		check(0, "pop_back on empty StrBlob");
 		data->pop_back();
