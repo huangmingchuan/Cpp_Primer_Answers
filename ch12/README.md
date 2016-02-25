@@ -181,11 +181,11 @@ std::string& deref() const {
 
 构造函数改为接受 `const Strblob &` , 然后给 Strblob 类添加两个 const 成员函数 cbegin 和 cend，返回 ConstStrBlobPtr。
 
-## 练习12.23
+## [练习12.23](exercise12_23.cpp)
 
 > 编写一个程序，连接两个字符串字面常量，将结果保存在一个动态分配的char数组中。重写这个程序，连接两个标准库string对象。
 
-## 练习12.24
+## [练习12.24](exercise12_24.cpp)
 
 > 编写一个程序，从标准输入读取一个字符串，存入一个动态分配的字符数组中。描述你的程序如何处理变长输入。测试你的程序，输入一个超出你分配的数组长度的字符串。
 
@@ -196,15 +196,19 @@ std::string& deref() const {
 int *pa = new int[10];
 ```
 
-## 练习12.26
+```cpp
+delete [] pa;
+```
+
+## [练习12.26](exercise12_26.cpp)
 
 > 用 allocator 重写第427页中的程序。
 
-## 练习12.27
+## 练习12.27 : [头文件](exercise12_27.h) | [实现](exercise12_27.cpp) | [主函数](exercise12_27_main.cpp)
 
 > TextQuery 和 QueryResult 类只使用了我们已经介绍过的语言和标准库特性。不要提前看后续章节内容，只用已经学到的知识对这两个类编写你自己的版本。
 
-## 练习12.28
+## [练习12.28](exercise12_28.cpp)
 
 > 编写程序实现文本查询，不要定义类来管理数据。你的程序应该接受一个文件，并与用户交互来查询单词。使用vector、map 和 set 容器来保存来自文件的数据并生成查询结果。
 
@@ -212,7 +216,17 @@ int *pa = new int[10];
 
 > 我们曾经用do while 循环来编写管理用户交互的循环。用do while 重写本节程序，解释你倾向于哪个版本，为什么？
 
-## 练习12.30
+```cpp
+do {
+    std::cout << "enter word to look for, or q to quit: ";
+    string s;
+    if (!(std::cin >> s) || s == "q") break;
+    print(std::cout, tq.query(s)) << std::endl;
+} while ( true );
+```
+我更喜欢 while，这可能是习惯的问题。
+
+## 练习12.30 : [头文件](exercise12_27.h) | [实现](exercise12_27.cpp) | [主函数](exercise12_27_main.cpp)
 
 > 定义你自己版本的 TextQuery 和 QueryResult 类，并执行12.3.1节中的runQueries 函数。
 
@@ -220,10 +234,30 @@ int *pa = new int[10];
 
 > 如果用vector 代替 set 保存行号，会有什么差别？哪个方法更好？为什么？
 
+如果用 vector 则会有单词重复的情况出现。而这里保存的是行号，不需要重复元素，所以 set 更好。
+
 ## 练习12.32
 
 > 重写 TextQuery 和 QueryResult类，用StrBlob 代替 vector<string> 保存输入文件。
 
+TextQuery 和 QueryResult 类中的 file 成员，改为 指向 StrBlob 的智能指针。在访问 StrBlob 时，要使用 StrBlobPtr 。
+
 ## 练习12.33
 
 > 在第15章中我们将扩展查询系统，在 QueryResult 类中将会需要一些额外的成员。添加名为 begin 和 end 的成员，返回一个迭代器，指向一个给定查询返回的行号的 set 中的位置。再添加一个名为 get_file 的成员，返回一个 shared_ptr，指向 QueryResult 对象中的文件。
+
+```cpp
+class QueryResult{
+public:
+	using Iter = std::set<line_no>::iterator;	
+	// ...
+	Iter begin() const { return lines->begin(); }
+	Iter end() const { return lines->end(); }
+	shared_ptr<std::vector<std::string>> get_file() const 
+	{ 
+		return std::make_shared<std::vector<std::string>>(file); 
+	}
+private:
+	// ...
+};
+```
