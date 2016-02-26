@@ -209,11 +209,13 @@ pravite:
 
 > 解释 swap(HasPtr&, HasPtr&)中对 swap 的调用不会导致递归循环。
 
-## 练习13.30
+这其实是3个不同的函数，参数类型不一样，所以不会导致递归循环。
+
+## [练习13.30](exercise13_30.h)
 
 > 为你的类值版本的 HasPtr 编写 swap 函数，并测试它。为你的 swap 函数添加一个打印语句，指出函数什么时候执行。
 
-## 练习13.31
+## [练习13.31](exercise13_31.h)
 
 > 为你的 HasPtr 类定义一个 < 运算符，并定义一个 HasPtr 的 vector。为这个 vector 添加一些元素，并对它执行 sort。注意何时会调用 swap。
 
@@ -221,11 +223,15 @@ pravite:
 
 > 类指针的 HasPtr 版本会从 swap 函数收益吗？如果会，得到了什么益处？如果不是，为什么？
 
+会。交换指针不用进行内存分配，因此得到了性能上的提升。
+
 ## 练习13.33
 
 > 为什么Message的成员save和remove的参数是一个 Folder&？为什么我们不能将参数定义为 Folder 或是 const Folder？
 
-## 练习13.34
+因为 save 和 remove 操作需要更新指定 Folder。
+
+## 练习13.34 : [h](exercise13_34.h) | [cpp](exercise13_34.cpp)
 
 > 编写本节所描述的 Message。
 
