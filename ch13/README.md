@@ -287,9 +287,15 @@ for_each(elements, first_free, [this](std::string &rhs){ alloc.destroy(&rhs); })
 
 > 编写标准库 string 类的简化版本，命名为 String。你的类应该至少有一个默认构造函数和一个接受 C 风格字符串指针参数的构造函数。使用 allocator 为你的 String类分配所需内存。
 
+[hpp](exercise13_44.h) | [cpp](exercise13_44.cpp) | [Test](exercise13_44_main.cpp)
+
 ## 练习13.45
 
 > 解释左值引用和右值引用的区别？
+
+定义：
+* 常规引用被称为左值引用
+* 绑定到右值的引用被称为右值引用。
 
 ## 练习13.46
 
@@ -303,11 +309,20 @@ int? r3 = r1;
 int? r4 = vi[0] * f();
 ```
 
-## 练习13.47
+```cpp
+int f();
+vector<int> vi(100);
+int&& r1 = f();
+int& r2 = vi[0];
+int& r3 = r1;
+int&& r4 = vi[0] * f();
+```
+
+## 练习13.47 : [hpp](exercise13_44.h) | [cpp](exercise13_44.cpp) 
 
 > 对你在练习13.44中定义的 String类，为它的拷贝构造函数和拷贝赋值运算符添加一条语句，在每次函数执行时打印一条信息。
 
-## 练习13.48
+## [练习13.48](exercise13_44_main.cpp)
 
 > 定义一个vector<String> 并在其上多次调用 push_back。运行你的程序，并观察 String 被拷贝了多少次。
 
@@ -319,15 +334,29 @@ int? r4 = vi[0] * f();
 
 > 在你的 String 类的移动操作中添加打印语句，并重新运行13.6.1节的练习13.48中的程序，它使用了一个vector<String>，观察什么时候会避免拷贝。
 
+```cpp
+String baz()
+{
+    String ret("world");
+    return ret; // first avoided
+}
+
+String s5 = baz(); // second avoided
+```
+
 ## 练习13.51
 
 > 虽然 unique_ptr 不能拷贝，但我们在12.1.5节中编写了一个 clone 函数，它以值的方式返回一个 unique_ptr。解释为什么函数是合法的，以及为什么它能正确工作。
+
+在这里是移动的操作而不是拷贝操作，因此是合法的。
 
 ## 练习13.52
 
 > 详细解释第478页中的 HasPtr 对象的赋值发生了什么？特别是，一步一步描述 hp、hp2 以及 HasPtr 的赋值运算符中的参数 rhs 的值发生了什么变化。
 
-## 练习13.53
+左值被拷贝，右值被移动。
+
+## 练习13.53 : [hpp](exercise13_53.h) | [cpp](exercise13_53.cpp) 
 
 > 从底层效率的角度看，HasPtr 的赋值运算符并不理想，解释为什么？为 HasPtr 实现一个拷贝赋值运算符和一个移动赋值运算符，并比较你的新的移动赋值运算符中执行的操作和拷贝并交换版本中的执行的操作。
 
@@ -335,9 +364,19 @@ int? r4 = vi[0] * f();
 
 > 如果我们为 HasPtr 定义了移动赋值运算符，但未改变拷贝并交换运算符，会发生什么？编写代码验证你的答案。
 
+```cpp
+error: ambiguous overload for 'operator=' (operand types are 'HasPtr' and 'std::remove_reference<HasPtr&>::type { aka HasPtr }')
+hp1 = std::move(*pH);
+^
+```
+
 ## 练习13.55
 
 > 为你的 StrBlob 添加一个右值引用版本的 push_back。
+
+```cpp
+void push_back(string &&s) { data->push_back(std::move(s)); }
+```
 
 ## 练习13.56
 
@@ -349,6 +388,8 @@ Foo Foo::sorted() const & {
 }
 ```
 
+会产生递归并且最终溢出。
+
 ## 练习13.57
 
 > 如果 sorted定义如下，会发生什么：
@@ -356,6 +397,8 @@ Foo Foo::sorted() const & {
 Foo Foo::sorted() const & { return Foo(*this).sorted(); }
 ```
 
-## 练习13.58
+没问题。会调用移动版本。
+
+## [练习13.58](exercise13_58.cpp)
 
 > 编写新版本的 Foo 类，其 sorted 函数中有打印语句，测试这个类，来验证你对前两题的答案是否正确。
