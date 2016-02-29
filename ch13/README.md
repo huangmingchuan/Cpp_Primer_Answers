@@ -239,11 +239,13 @@ pravite:
 
 > 如果Message 使用合成的拷贝控制成员，将会发生什么？
 
-## 练习13.36
+在赋值后一些已存在的 `Folders` 将会与 `Message` 不同步。
+
+## 练习13.36 : [h](exercise13_34.h) | [cpp](exercise13_34.cpp)
 
 > 设计并实现对应的 Folder 类。此类应该保存一个指向 Folder 中包含  Message 的 set。
 
-## 练习13.37
+## 练习13.37 : [h](exercise13_34.h) | [cpp](exercise13_34.cpp)
 
 > 为 Message 类添加成员，实现向 folders 添加和删除一个给定的 Folder*。这两个成员类似Folder 类的 addMsg 和 remMsg 操作。
 
@@ -251,17 +253,21 @@ pravite:
 
 > 我们并未使用拷贝交换方式来设计 Message 的赋值运算符。你认为其原因是什么？
 
-## 练习13.39
+对于动态分配内存的例子来说，拷贝交换方式是一种简洁的设计。而这里的 Message 类并不需要动态分配内存，用拷贝交换方式只会增加实现的复杂度。
+
+## 练习13.39 : [hpp](exercise13_39.h) | [cpp](exercise13_39.cpp)
 
 > 编写你自己版本的 StrVec，包括自己版本的 reserve、capacity 和 resize。
 
-## 练习13.40
+## 练习13.40: [hpp](exercise13_39.h) | [cpp](exercise13_39.cpp)
 
 > 为你的 StrVec 类添加一个构造函数，它接受一个 initializer_list<string> 参数。
 
 ## 练习13.41
 
 > 在 push_back 中，我们为什么在 construct 调用中使用后置递增运算？如果使用前置递增运算的话，会发生什么？
+
+会出现 `unconstructed`。
 
 ## 练习13.42
 
@@ -270,6 +276,12 @@ pravite:
 ## 练习13.43
 
 > 重写 free 成员，用 for_each 和 lambda 来代替 for 循环 destroy 元素。你更倾向于哪种实现，为什么？
+
+**重写**：
+```cpp
+for_each(elements, first_free, [this](std::string &rhs){ alloc.destroy(&rhs); });
+```
+更倾向于函数式写法。
 
 ## 练习13.44
 
