@@ -170,9 +170,13 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 你在7.5.1节的练习7.40中曾经选择并编写了一个类，你认为它应该含有拷贝赋值和移动赋值运算符吗？如果是，请实现它们。
 
+[hpp](exercise14_24.h) | [cpp](exercise14_24.cpp) | [test](exercise14_24_main.cpp)
+
 ## 练习14.25
 
 > 上题的这个类还需要定义其他赋值运算符吗？如果是，请实现它们；同时说明运算对象应该是什么类型并解释原因。
+
+是。如上题。
 
 ## 练习14.26
 
@@ -190,6 +194,8 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 为什么不定义const 版本的递增和递减运算符？
 
+因为递增和递减会改变对象本身，所以定义 const 版本的毫无意义。
+
 ## 练习14.30
 
 > 为你的 StrBlobPtr 类和在12.1.6节练习12.22中定义的 ConstStrBlobPtr 的类分别添加解引用运算符和箭头运算符。注意：因为 ConstStrBlobPtr 的数据成员指向const vector，所以ConstStrBlobPtr 中的运算符必须返回常量引用。
@@ -198,45 +204,78 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 我们的 StrBlobPtr 类没有定义拷贝构造函数、赋值运算符以及析构函数，为什么？
 
+因为使用合成的足够了。
+
 ## 练习14.32
 
 > 定义一个类令其含有指向 StrBlobPtr 对象的指针，为这个类定义重载的箭头运算符。
+
+```cpp
+class StrBlobPtr;
+
+class StrBlobPtr_pointer
+{
+public:
+    StrBlobPtr_pointer() = default;
+    StrBlobPtr_pointer(StrBlobPtr* p) : pointer(p) { }
+
+    StrBlobPtr& operator *();
+    StrBlobPtr* operator->();
+
+private:
+    StrBlobPtr* pointer = nullptr;
+};
+```
 
 ## 练习14.33
 
 > 一个重载的函数调用运算符应该接受几个运算对象？
 
+一个重载的函数调用运算符接受的运算对象应该和该运算符拥有的操作数一样多。
+
 ## 练习14.34
 
 > 定义一个函数对象类，令其执行if-then-else 的操作：该类的调用运算符接受三个形参，它首先检查第一个形参，如果成功返回第二个形参值；如果不成功返回第三个形参的值。
 
-## 练习14.35
+```cpp
+struct Test 
+{
+    int operator()(bool b, int iA, int iB) 
+    {
+        return b ? iA : iB;
+    }
+};
+```
+
+## [练习14.35](exercise14_35.cpp)
 
 > 编写一个类似于 PrintString 的类，令其从 istream 中读取一行输入，然后返回一个表示我们所读内容的string。如果读取失败，返回空string。
 
-## 练习14.36
+## [练习14.36](exercise14_36.cpp)
 
 > 使用前一个练习定义的类读取标准输入，将每一行保存为 vector 的一个元素。
 
-## 练习14.37
+## [练习14.37](exercise14_37.cpp)
 
 > 编写一个类令其检查两个值是否相等。使用该对象及标准库算法编写程序，令其替换某个序列中具有给定值的所有实例。
 
-## 练习14.38
+## [练习14.38](exercise14_38.cpp)
 
 > 编写一个类令其检查某个给定的 string 对象的长度是否与一个阈值相等。使用该对象编写程序，统计并报告在输入的文件中长度为1的单词有多少个，长度为2的单词有多少个、......、长度为10的单词有多少个。
 
-## 练习14.39
+## [练习14.39](exercise14_38.cpp)
 
 > 修改上一题的程序令其报告长度在1到9之间的单词有多少个、长度在10以上的单词有多少个。
 
-## 练习14.40
+## [练习14.40](exercise14_40.cpp)
 
 > 重新编写10.3.2节的biggies 函数，使用函数对象替换其中的 lambda 表达式。
 
 ## 练习14.41
 
 > 你认为 C++ 11 标准为什么要增加 lambda？对于你自己来说，什么情况下会使用 lambda，什么情况下会使用类？
+
+使用 lambda 是非常方便的，当需要使用一个函数，而这个函数不常使用并且简单时，使用lambda 是比较方便的选择。
 
 ## 练习14.42
 
@@ -247,11 +286,17 @@ istream& operator>>(istream& in, Sales_data& s)
 (c)将所有的值乘以2。
 ```
 
-## 练习14.43
+```cpp
+std::count_if(ivec.cbegin(), ivec.cend(), std::bind(std::greater<int>(), _1, 1024));
+std::find_if(svec.cbegin(), svec.cend(), std::bind(std::not_equal_to<std::string>(), _1, "pooh"));
+std::transform(ivec.begin(), ivec.end(), ivec.begin(), std::bind(std::multiplies<int>(), _1, 2));
+```
+
+## [练习14.43](exercise14_43.cpp)
 
 > 使用标准库函数对象判断一个给定的int值是否能被 int 容器中的所有元素整除。
 
-## 练习14.44
+## [练习14.44](exercise14_44.cpp)
 
 > 编写一个简单的桌面计算器使其能处理二元运算。
 
@@ -259,9 +304,13 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 编写类型转换运算符将一个 Sales_data 对象分别转换成 string 和 double，你认为这些运算符的返回值应该是什么？
 
+[hpp](exercise14_45.h) | [cpp](exercise14_45.cpp) | [test](exercise14_45_main.cpp)
+
 ## 练习14.46
 
 > 你认为应该为 Sales_data 类定义上面两种类型转换运算符吗？应该把它们声明成 explicit 的吗？为什么？
+
+上面的两种类型转换有歧义，应该声明成 explicit 的。
 
 ## 练习14.47
 
@@ -273,13 +322,21 @@ struct Integral {
 }
 ```
 
+第一个无意义，会被编译器忽略。第二个合法。
+
 ## 练习14.48 
 
 > 你在7.5.1节的练习7.40中曾经选择并编写了一个类，你认为它应该含有向 bool 的类型转换运算符吗？如果是，解释原因并说明该运算符是否应该是 explicit的；如果不是，也请解释原因。
 
+Date 类应该含有向 bool 的类型转换运算符，并且应该声明为 explicit 的。
+
 ## 练习14.49
 
 > 为上一题提到的类定义一个转换目标是 bool 的类型转换运算符，先不用在意这么做是否应该。
+
+```cpp
+ explicit operator bool() { return (year<4000) ? true : false; }
+```
 
 ## 练习14.50
 
@@ -295,6 +352,8 @@ int ex1 = ldObj;
 float ex2 = ldObj;
 ```
 
+ex1 转换不合法，没有定义从 `LongDouble` 到 `int` 的转换。ex2 合法。
+
 ## 练习14.51
 
 > 在调用 calc 的过程中，可能用到哪些类型转换序列呢？说明最佳可行函数是如何被选出来的。
@@ -304,6 +363,16 @@ void calc(LongDouble);
 double dval;
 calc(dval);  //哪个calc？
 ```
+
+最佳可行函数是 `void calc(int)`。
+
+转换的优先级如下：
+
+1. 精确匹配
+2. const 转换。
+3. 类型提升
+4. 算术转换
+5. 类类型转换
 
 ## 练习14.52
 
@@ -321,10 +390,18 @@ ld = si + ld;
 ld = ld + si;
 ```
 
+`ld = si + ld;` 不合法。`ld = ld + si` 两个都可以调用，但是第一个调用更精确一些。
+
 ## 练习14.53
 
 > 假设我们已经定义了如第522页所示的SmallInt，判断下面的加法表达式是否合法。如果合法，使用了哪个加法运算符？如果不合法，应该怎样修改代码才能使其合法？
 ```cpp
 SmallInt si;
 double d = si + 3.14;
+```
+
+不合法。应该该为：
+```cpp
+SmallInt s1;
+double d = s1 + SmallInt(3.14);
 ```
