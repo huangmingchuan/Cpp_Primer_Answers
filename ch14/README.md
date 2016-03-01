@@ -70,6 +70,8 @@
 
 > 你在13.5节的练习中曾经编写了一个String类，为它定义一个输出运算符。
 
+[hpp](exercise14_7.h) | [cpp](exercise14_7.cpp) | [test](exercise14_7_main.cpp)
+
 ## 练习14.8
 
 > 你在7.5.1节中的练习中曾经选择并编写了一个类，为它定义一个输出运算符。
@@ -82,9 +84,12 @@
 
 > 对于 Sales_data 的输入运算符来说如果给定了下面的输入将发生什么情况？
 ```cpp
-(a) 0-201-99999-9
+(a) 0-201-99999-9 10 24.95
 (b) 10 24.95 0-210-99999-9
 ```
+
+* (a) 格式正确。
+* (b) 不合法的输入。因为程序试图将 `0-210-99999-9` 转换为 `float`。
 
 ## 练习14.11
 
@@ -99,6 +104,8 @@ istream& operator>>(istream& in, Sales_data& s)
 }
 ```
 
+没有输入检查，什么也不会发生。
+
 ## 练习14.12
 
 > 你在7.5.1节的练习中曾经选择并编写了一个类，为它定义一个输入运算符并确保该运算符可以处理输入错误。
@@ -107,13 +114,19 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 你认为 Sales_data 类还应该支持哪些其他算术运算符？如果有的话，请给出它们的定义。
 
+没有其他了。
+
 ## 练习14.14
 
 > 你觉得为什么调用 operator+= 来定义operator+ 比其他方法更有效？
 
+因为用 `operator+=` 会避免使用一个临时对象，而使得更有效。
+
 ## 练习14.15
 
 > 你在7.5.1节的练习7.40中曾经选择并编写了一个类，你认为它应该含有其他算术运算符吗？如果是，请实现它们；如果不是，解释原因。
+
+[hpp](exercise14_15.h) | [cpp](exercise14_15.cpp) | [test](exercise14_15_main.cpp)
 
 ## 练习14.16
 
@@ -139,13 +152,19 @@ istream& operator>>(istream& in, Sales_data& s)
 
 > 编写 Sales_data 类的+ 和+= 运算符，使得 + 执行实际的加法操作而 += 调用+。相比14.3节和14.4节对这两个运算符的定义，本题的定义有何缺点？试讨论之。
 
+缺点：使用了一个 `Sales_data` 的临时对象，但它并不是必须的。
+
 ## 练习14.22
 
 > 定义赋值运算符的一个新版本，使得我们能把一个表示 ISBN 的 string 赋给一个 Sales_data 对象。
 
+[hpp](exercise14_22.h) | [cpp](exercise14_22.cpp) | [test](exercise14_22_main.cpp)
+
 ## 练习14.23
 
 > 为你的StrVec 类定义一个 initializer_list 赋值运算符。
+
+[hpp](exercise14_23.h) | [cpp](exercise14_23.cpp) | [test](exercise14_23_main.cpp)
 
 ## 练习14.24
 

@@ -15,10 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ch14\exercise14_5.cpp">
+    <ClInclude Include="ch14\exercise14_23.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ch14\exercise14_23.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ch14\exercise14_5_main.cpp">
+    <ClCompile Include="ch14\exercise14_23_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
