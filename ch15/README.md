@@ -100,6 +100,11 @@ private:
 ```
 在上述代码中存在问题吗？如果有，你该如何修改它？
 
+有问题。应该改为：
+```cpp
+	void print(ostream &os) override { base::print(os); os << " derived\n " << i; }
+```
+
 ## 练习15.14
 
 > 给定上一题中的类以及下面这些对象，说明在运行时调用哪个函数：
@@ -110,17 +115,30 @@ derived dobj; 	base *bp2 = &dobj; 	base &br2 = dobj;
 (d)bp2->name();		(e)br1.print();		(f)br2.print();
 ```
 
+* (a) 编译时。
+* (b) 编译时。
+* (c) 编译时。
+* (d) 编译时。
+* (e) 运行时。base::print()
+* (f) 运行时。derived::print()
+
 ## 练习15.15
 
 > 定义你自己的 Disc_quote 和 Bulk_quote。
+
+[Disc_quote](Disc_quote.h) | [Bulk_quote](Bulk_quote.h)
 
 ## 练习15.16
 
 > 改写你在15.2.2节练习中编写的数量受限的折扣策略，令其继承 Disc_quote。
 
+[Limit_quote](Limit_quote.h)
+
 ## 练习15.17
 
 > 尝试定义一个 Disc_quote 的对象，看看编译器给出的错误信息是什么？
+
+`error: cannot declare variable 'd' to be of abstract type 'Disc_quote': Disc_quote d;`
 
 ## 练习15.18
 
@@ -134,6 +152,13 @@ p = &dd2;		//dd2 的类型是 Derived_from_Private
 p = &dd3;		//dd3 的类型是 Derived_from_Protected
 ```
 
+* Base *p = &d1; 合法
+* p = &d2; 不合法
+* p = &d3; 不合法
+* p = &dd1; 合法
+* p = &dd2; 不合法
+* p = &dd3; 不合法
+
 ## 练习15.19
 
 > 假设543页和544页的每个类都有如下形式的成员函数：
@@ -142,7 +167,16 @@ void memfcn(Base &b) { b = *this; }
 ```
 对于每个类，分别判断上面的函数是否合法。
 
-## 练习15.20
+合法：
+* Pub_Derv
+* Priv_Derv
+* Prot_Derv
+* Derived_from_Public
+* Derived_from_Protected
+不合法：
+* Derived_from_Private
+
+## [练习15.20](exercise15_20.cpp)
 
 > 编写代码检验你对前面两题的回答是否正确。
 
@@ -163,19 +197,28 @@ void memfcn(Base &b) { b = *this; }
 
 > 假设第550页的 D1 类需要覆盖它继承而来的 fcn 函数，你应该如何对其进行修改？如果你修改之后 fcn 匹配了 Base 中的定义，则该节的那些调用语句将如何解析？
 
+移除 int 参数。
+
 ## 练习15.24
 
 > 哪种类需要虚析构函数？虚析构函数必须执行什么样的操作？
+
+基类通常应该定义一个虚析构函数。
 
 ## 练习15.25
 
 > 我们为什么为 Disc_quote 定义一个默认构造函数？如果去掉该构造函数的话会对 Bulk_quote 的行为产生什么影响？
 
+因为Disc_quote的默认构造函数会运行Quote的默认构造函数，而Quote默认构造函数会完成成员的初始化工作。
+如果去除掉该构造函数的话，Bulk_quote的默认构造函数而无法完成Disc_quote的初始化工作。
+
 ## 练习15.26
 
 > 定义 Quote 和 Bulk_quote 的拷贝控制成员，令其与合成的版本行为一致。为这些成员以及其他构造函数添加打印状态的语句，使得我们能够知道正在运行哪个程序。使用这些类编写程序，预测程序将创建和销毁哪些对象。重复实验，不断比较你的预测和实际输出结果是否相同，直到预测完全准确再结束。
 
-## 练习15.27
+[Quote](exercise15_26.h) | [Bulk_quote](exercise15_26_2.h)
+
+## [练习15.27](exercise15_27.h)
 
 > 重新定义你的 Bulk_quote 类，令其继承构造函数。
 
