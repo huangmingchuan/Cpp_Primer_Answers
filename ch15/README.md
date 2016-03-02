@@ -222,7 +222,7 @@ void memfcn(Base &b) { b = *this; }
 
 > 重新定义你的 Bulk_quote 类，令其继承构造函数。
 
-## 练习15.28
+## [练习15.28](exercise15_28.cpp)
 
 > 定义一个存放 Quote 对象的 vector，将 Bulk_quote 对象传入其中。计算 vector 中所有元素总的 net_price。
 
@@ -230,9 +230,13 @@ void memfcn(Base &b) { b = *this; }
 
 > 再运行一次你的程序，这次传入 Quote 对象的 shared_ptr 。如果这次计算出的总额与之前的不一致，解释为什么;如果一直，也请说明原因。
 
+因为智能指针导致了多态性的产生，所以这次计算的总额不一致。
+
 ## 练习15.30
 
 > 编写你自己的 Basket 类，用它计算上一个练习中交易记录的总价格。
+
+[Basket h](basket.h) | [Basket cpp](basket.cpp) | [main](main.cpp)
 
 ## 练习15.31
 
@@ -243,13 +247,24 @@ void memfcn(Base &b) { b = *this; }
 (c) (Query(s1) & (Query(s2)) | (Query(s3) & Query(s4)));
 ```
 
+* (a) OrQuery, AndQuery, NotQuery, WordQuery
+* (b) OrQuery, AndQuery, NotQuery, WordQuery
+* (c) OrQuery, AndQuery, WordQuery
+
 ## 练习15.32
 
 > 当一个 Query 类型的对象被拷贝、移动、赋值或销毁时，将分别发生什么？
 
+* **拷贝：**当被拷贝时，合成的拷贝构造函数被调用。它将拷贝两个数据成员至新的对象。而在这种情况下，数据成员是一个智能指针，当拷贝时，相应的智能指针指向相同的地址，计数器增加1.
+* **移动：**当移动时，合成的移动构造函数被调用。它将移动数据成员至新的对象。这时新对象的智能指针将会指向原对象的地址，而原对象的智能指针为 nullptr，新对象的智能指针的引用计数为 1.
+* **赋值：**合成的赋值运算符被调用，结果和拷贝的相同的。
+* **销毁：**合成的析构函数被调用。对象的智能指针的引用计数递减，当引用计数为 0 时，对象被销毁。
+
 ## 练习15.33
 
 > 当一个 Query_base 类型的对象被拷贝、移动赋值或销毁时，将分别发生什么？
+
+由合成的版本来控制。然而 `Query_base` 是一个抽象类，它的对象实际上是它的派生类对象。
 
 ## 练习15.34
 
@@ -259,6 +274,38 @@ void memfcn(Base &b) { b = *this; }
 (b) 例举出 cout << q 所调用的 rep。
 (c) 例举出 q.eval() 所调用的 eval。
 ```
+
+* **a:** Query q = Query("fiery") & Query("bird") | Query("wind");
+
+
+1. `Query::Query(const std::string& s)` where s == "fiery","bird" and "wind"
+2. `WordQuery::WordQuery(const std::string& s)` where s == "fiery","bird" and "wind"
+3. `AndQuery::AndQuery(const Query& left, const Query& right);`
+4. `BinaryQuery(const Query&l, const Query& r, std::string s);`
+5. `Query::Query(std::shared_ptr<Query_base> query)` 2times
+6. `OrQuery::OrQuery(const Query& left, const Query& right);`
+7. `BinaryQuery(const Query&l, const Query& r, std::string s);`
+8. `Query::Query(std::shared_ptr<Query_base> query)` 2times
+
+
+* **b:**
+
+
+1. `query.rep()` inside the operator <<().
+2. `q->rep()` inside the member function rep().
+3. `OrQuery::rep()` which is inherited from `BinaryQuery`.
+4. `Query::rep()` for `lhs` and `rhs`:
+for `rhs` which is a `WordQuery` : `WordQuery::rep()` where `query_word("wind")` is returned.For `lhs` which is an `AndQuery`.
+5. `AndQuery::rep()` which is inherited from `BinaryQuery`.
+6. `BinaryQuer::rep()`: for `rhs: WordQuery::rep()`   where query_word("fiery") is returned. For `lhs: WordQuery::rep()` where query_word("bird" ) is returned.
+
+
+* **c:**
+
+
+1. `q.eval()`
+2. `q->rep()`: where q is a pointer to `OrQuary`.
+3. `QueryResult eval(const TextQuery& )const override`: is called but this one has not been defined yet.
 
 ## 练习15.35
 
