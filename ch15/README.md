@@ -311,6 +311,8 @@ for `rhs` which is a `WordQuery` : `WordQuery::rep()` where `query_word("wind")`
 
 > 实现 Query 类和 Query_base 类，其中需要定义rep 而无须定义 eval。
 
+[Query](query.h) | [Query_base](query_base.h)
+
 ## 练习15.36
 
 > 在构造函数和 rep 成员中添加打印语句，运行你的代码以检验你对本节第一个练习中(a)、(b)两小题的回答是否正确。
@@ -328,6 +330,10 @@ AndQuery b = Query("fiery") & Query("bird");
 OrQuery c = Query("fiery") & Query("bird");
 ```
 
+1. 不合法。因为 BinaryQuery 是抽象类。
+2. 不合法。& 操作返回的是一个 Query 对象。
+3. 不合法。& 操作返回的是一个 Query 对象。
+
 ## 练习15.39
 
 > 实现 Query 类和　Query_base 类，求图15.3中表达式的值并打印相关信息，验证你的程序是否正确。
@@ -335,6 +341,13 @@ OrQuery c = Query("fiery") & Query("bird");
 ## 练习15.40
 
 > 在 OrQuery 的 eval 函数中，如果 rhs 成员返回的是空集将发生什么？
+
+不会发生什么。代码如下：
+```cpp
+std::shared_ptr<std::set<line_no>> ret_lines =
+       std::make_shared<std::set<line_no>>(left.begin(), left.end());
+```
+如果 rhs 成员返回的是空集，在 set 当中不会添加什么。
 
 ## 练习15.41
 
