@@ -228,6 +228,14 @@ void print(const Container& c)
 
 > 为你的 Blob 模版添加一个构造函数，它接受两个迭代器。
 
+```cpp
+template<typename T>    //for class
+template<typename It>   //for this member
+Blob<T>::Blob(It b, It e) :
+    data(std::make_shared<std::vector<T>>(b, e))
+{ }
+```
+
 ## 练习16.25
 
 > 解释下面这些声明的含义。
@@ -236,9 +244,17 @@ extern template class vector<string>;
 template class vector<Sales_data>;
 ```
 
+前者是模版声明，后者是实例化定义。
+
 ## 练习16.26
 
 > 假设 NoDefault 是一个没有默认构造函数的类，我们可以显式实例化 vector<NoDefualt>吗？如果不可以，解释为什么。
+
+不可以。如
+```cpp
+std::vector<NoDefault> vec(10);
+```
+会使用 NoDefault 的默认构造函数，而 NoDefault 没有默认构造函数，因此是不可以的。
 
 ## 练习16.27
 
@@ -257,9 +273,13 @@ int main() {
 }
 ```
 
+(a)、(b)、(c)、(f) 都发生了实例化，(d)、(e) 没有实例化。
+
 ## 练习16.28
 
 > 编写你自己版本的 shared_ptr 和 unique_ptr。
+
+[shared_ptr](shared_ptr.h) | [unique_ptr](unique_ptr.h)
 
 ## 练习16.29
 
@@ -277,9 +297,14 @@ int main() {
 
 > 在模版实参推断过程中发生了什么？
 
+在模版实参推断过程中，编译器使用函数调用中的实参类型来寻找模版实参，用这些模版实参生成的函数版本与给定的函数调用最为匹配。
+
 ## 练习16.33
 
 > 指出在模版实参推断过程中允许对函数实参进行的两种类型转换。
+
+* const 转换：可以将一个非 const 对象的引用（或指针）传递给一个 const 的引用（或指针）形参。
+* 数组或函数指针转换：如果函数形参不是引用类型，则可以对数组或函数类型的实参应用正常的指针转换。一个数组实参可以转换为一个指向其首元素的指针。类似的，一个函数实参可以转换为一个该函数类型的指针。
 
 ## 练习16.34
 
@@ -289,6 +314,9 @@ template <class T> int compare(const T&, const T&);
 (a) compare("hi", "world");
 (b) compare("bye", "dad");
 ```
+
+* (a) 不合法。`compare(const char [3], const char [6])`, 两个实参类型不一致。
+* (b) 合法。`compare(const char [4], const char [4])`.
 
 ## 练习16.35
 
@@ -302,6 +330,11 @@ double d; float f; char c;
 (c) fcn(c, 'c');
 (d) fcn(d, f);
 ```
+
+* (a) 合法，类型为char
+* (b) 合法，类型为double
+* (c) 合法，类型为char
+* (d) 不合法，这里无法确定T的类型是float还是double
 
 ## 练习16.36
 
@@ -318,6 +351,13 @@ const int *cp1 = &i, *cp2 = &j;
 (e) f1(p1, cp1);
 (f) f2(p1, cp1);
 ```
+
+* (a) f1(int*, int*);
+* (b) f2(int*, int*);
+* (c) f1(const int*, const int*);
+* (d) f2(const int*, const int*);
+* (e) f1(int*, const int*); 这个使用就不合法
+* (f) f2(int*, const int*);
 
 ## 练习16.37
 
