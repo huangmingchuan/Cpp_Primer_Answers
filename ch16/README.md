@@ -536,39 +536,90 @@ f(42); f(p); f(ci); f(p2);
 
 ## 练习16.53
 
-> 编写你自己版本的 print 函数，并打印一个、两个及五个实参来测试它，要打印的每个实参都应有不同的类型。
+> 编写你自己版本的 print 函数，并打印一个、两个及五个实参来测试它，要打印的每个实参都应有不同的类型。 
+
+```cpp
+template<typename Printable>
+std::ostream& print(std::ostream& os, Printable const& printable)
+{
+    return os << printable;
+}
+// recursion
+template<typename Printable, typename... Args>
+std::ostream& print(std::ostream& os, Printable const& printable, Args const&... rest)
+{
+    return print(os << printable << ", ", rest...);
+}
+```
 
 ## 练习16.54
 
 > 如果我们对一个没 << 运算符的类型调用 print，会发生什么？
 
+无法通过编译。
+
 ## 练习16.55
 
 > 如果我们的可变参数版本 print 的定义之后声明非可变参数版本，解释可变参数的版本会如何执行。
+
+`error: no matching function for call to 'print(std::ostream&)'`
 
 ## 练习16.56
 
 > 编写并测试可变参数版本的 errorMsg。
 
+```cpp
+template<typename... Args>
+std::ostream& errorMsg(std::ostream& os, const Args... rest)
+{
+    return print(os, debug_rep(rest)...);
+}
+```
+
 ## 练习16.57
 
 > 比较你的可变参数版本的 errorMsg 和6.2.6节中的 error_msg函数。两种方法的优点和缺点各是什么？
+
+可变参数版本有更好的灵活性。
 
 ## 练习16.58
 
 > 为你的 StrVec 类及你为16.1.2节练习中编写的 Vec 类添加 emplace_back 函数。
 
+```cpp
+template<typename T>        //for the class  template
+template<typename... Args>  //for the member template
+inline void
+Vec<T>::emplace_back(Args&&...args)
+{
+    chk_n_alloc();
+    alloc.construct(first_free++, std::forward<Args>(args)...);
+}
+```
+
 ## 练习16.59
 
 > 假定 s 是一个 string，解释调用 svec.emplace_back(s)会发生什么。
+
+会在 construst 函数中转发扩展包。
 
 ## 练习16.60
 
 > 解释 make_shared 是如何工作的。
 
+make_shared 是一个可变模版函数，它将参数包转发然后构造一个对象，再然后一个指向该对象的智能指针。
+
 ## 练习16.61
 
 > 定义你自己版本的 make_shared。
+
+```cpp
+   	template <typename T, typename ... Args>
+    auto make_shared(Args&&... args) -> std::shared_ptr<T>
+    {
+        return std::shared_ptr<T>(new T(std::forward<Args>(args)...));
+    }
+```
 
 ## 练习16.62
 
