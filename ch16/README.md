@@ -457,13 +457,45 @@ for (size_t i = 0; i != size(); ++i)
 	alloc.construct(dest++, std::move(*elem++));
 ```
 
+在每个循环中，对 elem 的解引用操作 * 当中，会返回一个左值，`std::move` 函数将该左值转换为右值，提供给 `construct` 函数。
+
 ## 练习16.47
 
 > 编写你自己版本的翻转函数，通过调用接受左值和右值引用参数的函数来测试它。
 
+```cpp
+template<typename F, typename T1, typename T2>
+void flip(F f, T1&& t1, T2&& t2)
+{
+    f(std::forward<T2>(t2), std::forward<T1>(t1));
+}
+```
+
 ## 练习16.48
 
 > 编写你自己版本的 debug_rep 函数。
+
+```cpp
+template<typename T> std::string debug_rep(const T& t)
+{
+    std::ostringstream ret;
+    ret << t;
+    return ret.str();
+}
+
+template<typename T> std::string debug_rep(T* p)
+{
+    std::ostringstream ret;
+    ret << "pointer: " << p;
+
+    if(p)
+        ret << " " << debug_rep(*p);
+    else
+        ret << " null pointer";
+
+    return ret.str();
+}
+```
 
 ## 练习16.49
 
@@ -474,9 +506,20 @@ tempalte <typename T> void f(const T*);
 tempalte <typename T> void g(T);
 tempalte <typename T> void g(T*);
 int i = 42, *p = &i;
-const int ci = 0, *p2 = *ci;
+const int ci = 0, *p2 = &ci;
 g(42); g(p); g(ci); g(p2);
 f(42); f(p); f(ci); f(p2);
+```
+
+```cpp
+    g(42);    	//g(T )
+    g(p);     	//g(T*)
+    g(ci);      //g(T)   
+    g(p2);      //g(T*)    
+    f(42);    	//f(T)
+    f(p);     	//f(T)
+    f(ci);    	//f(T)
+    f(p2);      //f(const T*)
 ```
 
 ## 练习16.50
