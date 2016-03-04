@@ -402,6 +402,15 @@ auto fcn3(It beg, It end) -> decltype(*beg + 0)
 
 > 编写一个新的 sum 版本，它返回类型保证足够大，足以容纳加法结果。
 
+```cpp
+template<typename T>
+auto sum(T lhs, T rhs) -> decltype( lhs + rhs)
+{
+    return lhs + rhs;
+}
+
+```
+
 ## 练习16.42
 
 > 对下面每个调用，确定 T 和 val 的类型：
@@ -413,13 +422,22 @@ int i = 0; const int ci = i;
 (c) g(i * ci);
 ```
 
+* (a) int&
+* (b) const int&
+* (c) int&&
+
 ## 练习16.43
 
 > 使用上一题定义的函数，如果我们调用g(i = ci),g 的模版参数将是什么？
 
+i = ci 返回的是左值，因此 g 的模版参数是 int&
+
 ## 练习16.44
 
 > 使用与第一题中相同的三个调用，如果 g 的函数参数声明为 T（而不是T&&），确定T的类型。如果g的函数参数是 const T&呢？
+
+当声明为T的时候，T的类型为int&。
+当声明为const T&的时候，T的类型为int&。
 
 ## 练习16.45
 
@@ -427,6 +445,9 @@ int i = 0; const int ci = i;
 ```cpp
 template <typename T> void g(T&& val) { vector<T> v; }
 ```
+
+当使用字面常量，T将为int。
+当使用int变量，T将为int&。编译的时候将会报错，因为没有办法对这种类型进行内存分配，无法创建vector<int&>.
 
 ## 练习16.46
 
