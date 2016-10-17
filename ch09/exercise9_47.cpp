@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-	string numbers("123456789");
+	string numbers("0123456789");
 	string s("ab2c3d7R4E6");
 
 	cout << "numeric characters: ";
