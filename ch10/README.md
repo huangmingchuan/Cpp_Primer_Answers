@@ -112,14 +112,10 @@ auto f = [x](int i) { i + x; };
 > 编写一个 lambda，捕获一个局部 int 变量，并递减变量值，直至它变为0。一旦变量变为0，再调用lambda应该不再递减变量。lambda应该返回一个bool值，指出捕获的变量是否为0。
 
 ```cpp
-int i = 10;
-    auto f = [&i]() { return --i  ? false : true; };
-    while(!f()){
-
-    }
-    cout<<f();
-
-
+	int i = 10;
+	auto f = [&i]() -> bool { return (i == 0 ? true : !(i--)); };
+	while (!f()) cout << i << endl;
+	return 0;
 ```
 
 ## [练习10.22](exercise10_22.cpp)
