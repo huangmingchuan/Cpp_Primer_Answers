@@ -26,10 +26,10 @@ Sales_data::Sales_data(Sales_data rhs);
 Point global;
 Point foo_bar(Point arg) // 1
 {
-	Point local = arg, *heap = new Point(global); // 2: local = arg
-	*heap = local; // 3: *heap = local
-	Point pa[4] = { local, *heap }; //4, 5
-	return *heap;  //6
+	Point local = arg, *heap = new Point(global); // 2: Point local = arg,  3: Point *heap = new Point(global) 
+	*heap = local; 
+	Point pa[4] = { local, *heap }; // 4, 5
+	return *heap;  // 6
 }
 ```
 
@@ -223,7 +223,7 @@ pravite:
 
 > 类指针的 HasPtr 版本会从 swap 函数收益吗？如果会，得到了什么益处？如果不是，为什么？
 
-会。交换指针不用进行内存分配，因此得到了性能上的提升。
+不会。类值的版本利用swap交换指针不用进行内存分配，因此得到了性能上的提升。类指针的版本本来就不用进行内存分配，所以不会得到性能提升。
 
 ## 练习13.33
 
