@@ -10,7 +10,7 @@
 
 ## 练习14.3
 
-> string 和 vecotr 都定义了重载的==以比较各自的对象，假设 svec1 和 svec2 是存放 string 的 vector，确定在下面的表达式中分别使用了哪个版本的==？
+> string 和 vector 都定义了重载的==以比较各自的对象，假设 svec1 和 svec2 是存放 string 的 vector，确定在下面的表达式中分别使用了哪个版本的==？
 ```cpp
 (a) "cobble" == "stone"
 (b) svec1[0] == svec2[0]
