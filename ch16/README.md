@@ -422,9 +422,9 @@ int i = 0; const int ci = i;
 (c) g(i * ci);
 ```
 
-* (a) 模板参数T类型：int&,函数参数val类型：int&
-* (b) 模板参数T类型：const int&,函数参数val类型：const int&
-* (c) 模板参数T类型：int,函数参数val类型：int&&
+* (a) 模板参数T类型：int&，函数参数val类型：int&
+* (b) 模板参数T类型：const int&，函数参数val类型：const int&
+* (c) 模板参数T类型：int，函数参数val类型：int&&
 
 ## 练习16.43
 
