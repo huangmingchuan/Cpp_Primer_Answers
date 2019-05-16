@@ -422,9 +422,9 @@ int i = 0; const int ci = i;
 (c) g(i * ci);
 ```
 
-* (a) int&
-* (b) const int&
-* (c) int&&
+* (a) 模板参数T类型：int&，函数参数val类型：int&
+* (b) 模板参数T类型：const int&，函数参数val类型：const int&
+* (c) 模板参数T类型：int，函数参数val类型：int&&
 
 ## 练习16.43
 
@@ -436,8 +436,8 @@ i = ci 返回的是左值，因此 g 的模版参数是 int&
 
 > 使用与第一题中相同的三个调用，如果 g 的函数参数声明为 T（而不是T&&），确定T的类型。如果g的函数参数是 const T&呢？
 
-当声明为T的时候，T的类型为int&。
-当声明为const T&的时候，T的类型为int&。
+当声明为T的时候, 模板参数T对于g(i)为int,对于g(ci)为const int,对于g(i * ci)为int。
+当声明为const T&的时候，模板参数T对这三个调用都为int。
 
 ## 练习16.45
 
