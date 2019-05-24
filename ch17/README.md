@@ -1327,9 +1327,29 @@ int main()
 
 > 修改第670页中的程序，打印2的平方根，但这次打印十六进制数字的大写形式。
 
-[Missing ios_base::hexfloat format specifier](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59987)
+这里要使用gcc5及之后的版本编译。  
+[Missing ios_base::hexfloat format specifier](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59987)  
+```cpp
+#include <iostream>
+#include <cmath>
+
+int main()
+{
+	std::cout <<"default format: " << sqrt(2.0) << '\n'
+		<< "scientific: " << std::scientific << sqrt(2.0) << '\n'
+		<< "fixed decimal: " << std::fixed << sqrt(2.0) << '\n'
+		<< "hexidecimal: " << std::uppercase << std::hexfloat << sqrt(2.0) << '\n'
+		<< "use defaults: " << std::defaultfloat << sqrt(2.0)
+		<< "\n\n";
+
+	return 0;
+}
+```
   
-## 17.36
+## 练习17.36
+
+> 修改上一题中的程序，打印不同的浮点数，使它们排成一列。
+
 ```cpp
 #include <iostream>
 #include <cmath>
@@ -1348,10 +1368,6 @@ int main()
 }
 ```
   
-## 练习17.36
-
-> 修改上一题中的程序，打印不同的浮点数，使它们排成一列。
-
 ## 练习17.37
 
 > 用未格式化版本的getline 逐行读取一个文件。测试你的程序，给定一个文件，既包含空行又包含长度超过你传递给geiline的字符数组大小的行。
