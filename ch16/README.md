@@ -422,9 +422,9 @@ int i = 0; const int ci = i;
 (c) g(i * ci);
 ```
 
-* (a) int&
-* (b) const int&
-* (c) int&&
+* (a) 模板参数T类型：int&，函数参数val类型：int&
+* (b) 模板参数T类型：const int&，函数参数val类型：const int&
+* (c) 模板参数T类型：int，函数参数val类型：int&&
 
 ## 练习16.43
 
@@ -436,8 +436,8 @@ i = ci 返回的是左值，因此 g 的模版参数是 int&
 
 > 使用与第一题中相同的三个调用，如果 g 的函数参数声明为 T（而不是T&&），确定T的类型。如果g的函数参数是 const T&呢？
 
-当声明为T的时候，T的类型为int&。
-当声明为const T&的时候，T的类型为int&。
+当声明为T的时候, 模板参数T对于g(i)为int,对于g(ci)为const int,对于g(i * ci)为int。
+当声明为const T&的时候，模板参数T对这三个调用都为int。
 
 ## 练习16.45
 
@@ -625,22 +625,308 @@ make_shared 是一个可变模版函数，它将参数包转发然后构造一�
 
 > 定义你自己版本的 hash<Sales_data>, 并定义一个 Sales_data 对象的 unorder_multise。将多条交易记录保存到容器中，并打印其内容。
 
+Sales_data.h
+```cpp
+#ifndef SALES_DATA_H_
+#define SALES_DATA_H_
+
+#include <string>
+
+struct Sales_data;
+
+std::istream &operator>>(std::istream &is, Sales_data &item);
+std::ostream &operator<<(std::ostream &os, const Sales_data &item);
+Sales_data operator+(const Sales_data &lhs, const Sales_data &rhs);
+
+struct Sales_data
+{
+friend std::istream& operator>>(std::istream&, Sales_data&);
+friend std::ostream& operator<<(std::ostream&, const Sales_data&);
+friend Sales_data operator+(const Sales_data&, const Sales_data&);
+friend bool operator==(const Sales_data&, const Sales_data&);
+friend class std::hash<Sales_data>;
+public:
+    Sales_data(const std::string &s, unsigned n, double p) : bookNo(s), units_sold(n), revenue(p*n){std::cout << "Sales_data(const std::string &s, unsigned n, double p)" << std::endl;}
+    Sales_data() : Sales_data("", 0, 0){std::cout << "Sales_data() : Sales_data(\"\", 0, 0)" << std::endl;}
+    Sales_data(const std::string &s) : Sales_data(s, 0, 0){std::cout << "Sales_data(const std::string &s) : Sales_data" << std::endl;}
+    Sales_data(std::istream &is) : Sales_data(){/*read(is, *this);*/ is >> *this; std::cout << "Sales_data(std::istream &is) : Sales_data()" << std::endl;}
+    std::string isbn() const {return bookNo;}
+    Sales_data& operator=(const std::string&);
+    Sales_data& operator+=(const Sales_data&);
+    Sales_data& operator-=(const Sales_data&);
+private:
+    inline double avg_price() const;
+
+    std::string bookNo;
+    unsigned units_sold = 0;
+    double revenue = 0.0;
+};
+
+inline double Sales_data::avg_price() const
+{
+    if(units_sold)
+        return revenue / units_sold;
+    else
+        return 0;
+}
+
+Sales_data& Sales_data::operator=(const std::string &s)
+{
+    *this = Sales_data(s);
+    return *this;
+}
+
+Sales_data& Sales_data::operator+=(const Sales_data &rhs)
+{
+    units_sold += rhs.units_sold;
+    revenue += rhs.revenue;
+
+    return *this;
+}
+
+Sales_data& Sales_data::operator-=(const Sales_data &rhs)
+{
+    units_sold -= rhs.units_sold;
+    revenue -= rhs.revenue;
+
+    return *this;
+}
+
+std::istream &operator>>(std::istream &is, Sales_data &item)
+{
+    double price = 0;
+
+    is >> item.bookNo >> item.units_sold >> price;
+    if(is)
+        item.revenue = price * item.units_sold;
+    else
+        item = Sales_data();
+
+    return is;
+}
+
+std::ostream &operator<<(std::ostream &os, const Sales_data &item)
+{
+    os << item.isbn() << " " << item.units_sold << " " << item.revenue << " " << item.avg_price();
+
+    return os;
+}
+
+Sales_data operator+(const Sales_data &lhs, const Sales_data &rhs)
+{
+    Sales_data sum = lhs;
+    sum += rhs;
+
+    return sum;
+}
+
+bool operator==(const Sales_data &lhs, const Sales_data &rhs)
+{
+    return lhs.isbn() == rhs.isbn() && 
+        lhs.units_sold == rhs.units_sold && 
+        lhs.revenue == rhs.revenue;
+}
+
+#endif
+```
+  
+ex62.cpp
+```cpp
+#include <iostream>
+#include <string>
+#include "Sales_data.h"
+#include <unordered_set>
+
+namespace std
+{
+    template <>
+    struct hash<Sales_data>
+    {
+        typedef size_t result_type;
+        typedef Sales_data argument_type;
+        size_t operator()(const Sales_data &s) const;
+    };
+    size_t hash<Sales_data>::operator()(const Sales_data &s) const
+    {
+        return hash<std::string>()(s.bookNo) ^ hash<unsigned>()(s.units_sold) ^ hash<double>()(s.revenue);
+    }
+}
+
+int main()
+{
+    Sales_data sales_data1("001-01", 1, 100);
+    Sales_data sales_data2;
+    Sales_data sales_data3("001-02");
+    // Sales_data sales_data4(std::cin);
+    // std::cout << sales_data4 << std::endl;
+    std::cout << std::hex << std::hash<std::string>()("001-01") << std::endl;
+    std::cout << std::hex << std::hash<unsigned>()(1) << std::endl;
+    std::cout << std::hex << std::hash<double>()(100) << std::endl;
+
+    std::unordered_multiset<Sales_data> SDset;
+    SDset.emplace(sales_data1);
+    SDset.emplace("001-03", 1, 200);
+    SDset.emplace(sales_data3);
+
+    for(const auto &item : SDset)
+        std::cout << "the hash code of " << item.isbn() <<":\n0x" << std::hex << std::hash<Sales_data>()(item) << "\n";
+
+    return 0;
+}
+```
+  
 ## 练习16.63
 
 > 定义一个函数模版，统计一个给定值在一个vecor中出现的次数。测试你的函数，分别传递给它一个double的vector，一个int的vector以及一个string的vector。
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+template <typename T>
+size_t get_number(T t, std::vector<T> const &vt)
+{
+    size_t n = 0;
+    auto iter = vt.begin();
+
+    do{
+        iter = std::find(iter, vt.end(), t);
+        if(iter != vt.end())
+        {
+            ++n;
+            ++iter;
+        }
+    }while(iter != vt.end());
+    return n;
+}
+
+size_t get_number(const char* p, const std::vector<std::string> &vt)
+{
+    size_t n = 0;
+    auto iter = vt.begin();
+    std::string s(p);
+
+    do{
+        iter = std::find(iter, vt.end(), s);
+        if(iter != vt.end())
+        {
+            ++n;
+            ++iter;
+        }
+    }while(iter != vt.end());
+    return n;
+}
+
+template <>
+size_t get_number(const char* t, std::vector<const char*> const &vt)
+{
+    size_t n = 0;
+    auto iter = vt.begin();
+
+    do{
+        iter = std::find(iter, vt.end(), t);
+        if(iter != vt.end())
+        {
+            ++n;
+            ++iter;
+        }
+    }while(iter != vt.end());
+    return n;
+}
+
+int main()
+{
+    std::vector<double> vd = {1, 2, 3, 3.14, 4, 3.14, 5, 6.28};
+    std::vector<int> vi = {1, 2, 3, 3, 4, 3, 5, 6};
+    std::vector<std::string> vs = {"a", "bb", "ccc", "dddd"};
+    std::vector<const char*> vcp = {"a", "bb", "ccc", "dddd"};
+
+    std::cout << get_number(3.14, vd) << std::endl;
+    std::cout << get_number(3, vi) << std::endl;
+    std::cout << get_number("a", vs) << std::endl;
+    std::cout << get_number("a", vcp) << std::endl;
+
+    return 0;
+}
+```
+  
 ## 练习16.64
 
 > 为上一题的模版编写特例化版本来处理vector<const char*>。编写程序使用这个特例化版本。
 
+详见１6.63。
+  
 ## 练习16.65
 
 > 在16.3节中我们定义了两个重载的 debug_rep 版本，一个接受 const char* 参数，另一个接受 char * 参数。将这两个函数重写为特例化版本。
 
+```cpp
+#include <iostream>
+#include <memory>
+#include <sstream>
+
+template <typename T> std::string debug_rep(const T &t);
+template <typename T> std::string debug_rep(T *p);
+std::string debug_rep(const std::string &s);
+
+template <typename T>
+std::string debug_rep(const T &t)
+{
+    std::ostringstream ret;
+    ret << t;
+    return ret.str();
+}
+
+template <typename T>
+std::string debug_rep(T *p)
+{
+    std::ostringstream ret;
+    ret << "pointer: " << p;
+
+    if(p)
+        ret << " " << debug_rep(*p);
+    else
+        ret << " null pointer";
+    return ret.str();
+}
+
+std::string debug_rep(const std::string &s)
+{
+    return '"' + s + '"';
+}
+
+template <>
+std::string debug_rep(char *p)
+{
+    return debug_rep(std::string(p));
+}
+
+template <>
+std::string debug_rep(const char *p)
+{
+    std::cout << "debug_rep(const char *p)" << std::endl;
+    return debug_rep(std::string(p));
+}
+
+int main()
+{
+    char ca[] = {'a', 'b', 'c', '\0'};
+    std::cout << debug_rep(ca) << std::endl;
+
+    return 0;
+}
+```
+  
 ## 练习16.66
 
 > 重载debug_rep 函数与特例化它相比，有何优点和缺点？
 
+会改变函数匹配顺序，几个函数都提供同样好的匹配的情况下，编译器会选择非模板版本。  
+  
 ## 练习16.67
 
 > 定义特例化版本会影响 debug_rep 的函数匹配吗？如果不影响，为什么？
+
+不会改变，特例化模板函数不会重载函数，不会影响函数匹配顺序。  
+
