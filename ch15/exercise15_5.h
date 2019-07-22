@@ -10,7 +10,7 @@ public:
 		Quote(b, p), min_qty(q), discount(disc)
 	{}
 
-	double net_price(std::size_t n) const override;
+	double net_price(std::size_t n) const override {};
 
 private:
 	std::size_t min_qty = 0;
