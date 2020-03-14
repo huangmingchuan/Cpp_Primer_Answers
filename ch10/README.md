@@ -211,8 +211,6 @@ auto f = [x](int i) { i + x; };
 * copy 需要两个**输入迭代器**，一个**输出迭代器**
 * reverse 需要**双向迭代器**
 * unique需要**随机访问迭代器**
-//这里显然是错的，unique所要求的是前向迭代器，而且list支持unique算法，但是list是双向迭代器，若unique要求随机访问迭代器怎么可能会支持list呢？
-而且可以通过微软自己的STL详细代码看到unique的参数类型是_FwdIt
 
 ## 练习10.41
 
