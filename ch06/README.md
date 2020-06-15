@@ -189,7 +189,7 @@ bool is_empty(const string& s) { return s.empty(); }
 * (b) 名为 change_val 的函数，返回vector<int>的迭代器，有两个参数：一个是int，另一个是vector<int>的迭代器。
 
 ```cpp
-(a) bool compare(matrix &m1, matrix &m2);
+(a) bool compare(const matrix &m1, const matrix &m2);
 (b) vector<int>::iterator change_val(int, vector<int>::iterator);
 ```
 
