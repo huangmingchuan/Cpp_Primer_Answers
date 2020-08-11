@@ -6,7 +6,7 @@ using namespace std;
 void replace(string& s, const string& oldVal, const string& newVal)
 {
 	auto curr = s.begin();
-	while (curr != s.end() - oldVal.size())
+	while (curr <= s.end() - oldVal.size())
 	{
 		if (oldVal == string(curr, curr + oldVal.size()))
 		{
