@@ -11,7 +11,9 @@ int main()
 	string result, s;
 	while (cin >> s)
 	{
-		result += s + " ";
+        if (!result.empty())
+            result += " ";
+		result += s;
 	}
 	cout << result << endl;
 
