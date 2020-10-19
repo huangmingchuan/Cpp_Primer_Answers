@@ -8,14 +8,14 @@ using std::endl;
 
 int main()
 {
-	string result, s;
-	while (cin >> s)
-	{
+    string result, s;
+    while (cin >> s)
+    {
         if (!result.empty())
             result += " ";
-		result += s;
-	}
-	cout << result << endl;
+        result += s;
+    }
+    cout << result << endl;
 
-	return 0;
+    return 0;
 }
