@@ -872,7 +872,7 @@ int main()
 				{
 					badNums << " " << ph;
 				}else
-					formatted << " " << (*it)[2] << " " << (*it)[2] << (*it)[2];
+					formatted << " " << (*it)[2] << " " << (*it)[5] << (*it)[7];
 		}
 		if(badNums.str().empty())
 			ofs << person.name << " " << formatted.str() << endl;
